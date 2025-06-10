@@ -1,1 +1,3 @@
 -hacer base de datos
+
+hacer diseño
