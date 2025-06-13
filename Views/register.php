@@ -42,6 +42,12 @@
             <input type="text" id="cedula" name="cedula" placeholder="1234567890" class="input-field w-full p-3">
             <div id="cedula-error" class="error-message hidden"></div>
           </div>
+
+            <div class="form-group">
+            <label for="contraseña" class="block text-sm font-medium mb-1">contraseña</label>
+            <input type="password" id="contraseña" name="contraseña" placeholder="********" class="input-field w-full p-3">
+            <div id="contraseña-error" class="error-message hidden"></div>
+          </div>
           
           <button type="submit" class="btn-coffee w-full py-3 px-4 rounded-lg font-medium text-center">
             Registrarse
