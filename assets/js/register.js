@@ -2,9 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('customer-form');
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('contraseña');
-    const successMessage = document.getElementById('success-message');
-    const registrationForm = document.getElementById('registration-form');
-    const newRegistrationBtn = document.getElementById('new-registration');
+    const successMessage = document.getElementById('welcomeMessage');
+    const registrationForm = document.getElementById('registrationCard');
 
     togglePassword.addEventListener('click', function() {
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -82,8 +81,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
-
-    newRegistrationBtn.addEventListener('click', resetForm);
 
     if (!localStorage.getItem('cafeteria_registros')) {
         localStorage.setItem('cafeteria_registros', JSON.stringify([]));
@@ -194,7 +191,74 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetForm() {
         form.reset();
         clearErrors();
-        successMessage.classList.add('hidden');
-        registrationForm.classList.remove('hidden');
+        if (successMessage) successMessage.classList.add('hidden');
+        if (registrationForm) registrationForm.classList.remove('hidden');
     }
+
+    // Agregar las funciones de animación de granos de café
+    function createCoffeeBeans() {
+        const particles = document.getElementById('particles');
+        const isSmallScreen = window.innerWidth < 768;
+        const numberOfBeans = isSmallScreen ? 8 : 15;
+        
+        // Clear existing beans
+        particles.innerHTML = '';
+        
+        for (let i = 0; i < numberOfBeans; i++) {
+          const bean = document.createElement('div');
+          bean.classList.add('coffee-bean');
+          
+          // Random size between 20 and 60px
+          const size = Math.random() * 40 + 20;
+          bean.style.width = `${size}px`;
+          bean.style.height = `${size}px`;
+          
+          // Random position
+          bean.style.top = `${Math.random() * 100}%`;
+          bean.style.left = `${Math.random() * 100}%`;
+          
+          // Random rotation
+          const rotation = Math.random() * 360;
+          bean.style.transform = `rotate(${rotation}deg)`;
+          
+          // Random animation duration
+          const duration = Math.random() * 20 + 10;
+          bean.style.animation = `float ${duration}s linear infinite`;
+          
+          // Random delay
+          bean.style.animationDelay = `${Math.random() * 5}s`;
+          
+          particles.appendChild(bean);
+        }
+      }
+
+      // Function to create coffee grains
+      function createCoffeeGrains() {
+        const grainsContainer = document.getElementById('coffeeGrains');
+        const isSmallScreen = window.innerWidth < 768;
+        const numberOfGrains = isSmallScreen ? 10 : 20;
+        
+        // Clear existing grains
+        grainsContainer.innerHTML = '';
+        
+        for (let i = 0; i < numberOfGrains; i++) {
+          const grain = document.createElement('div');
+          grain.classList.add('coffee-bean');
+          const size = Math.random() * 20 + 10;
+          grain.style.width = `${size}px`;
+          grain.style.height = `${size}px`;
+          grain.style.top = `${Math.random() * 100}%`;
+          grain.style.left = `${Math.random() * 100}%`;
+          const rotation = Math.random() * 360;
+          grain.style.transform = `rotate(${rotation}deg)`;
+          const duration = Math.random() * 20 + 10;
+          grain.style.animation = `float ${duration}s linear infinite`;
+          grain.style.animationDelay = `${Math.random() * 5}s`;
+          grainsContainer.appendChild(grain);
+        }
+      }
+
+    // Inicializar las animaciones
+    createCoffeeBeans();
+    createCoffeeGrains();
 });

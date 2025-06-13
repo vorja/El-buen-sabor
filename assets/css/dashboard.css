@@ -1,23 +1,23 @@
- .section {
+.section {
       display: none;
     }
     .section.active {
       display: block;
     }
     .table-status {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       margin: 10px;
       position: relative;
     }
     .table-status.disponible {
-      background-color: #10B981;
+      background-color: #68A357;
     }
     .table-status.ocupada {
-      background-color: #EF4444;
+      background-color: #4A3428;
     }
     .table-status.reservada {
-      background-color: #F59E0B;
+      background-color: #D4A373;
     }
     .table-number {
       position: absolute;
@@ -52,3 +52,127 @@
         height: 60px;
       }
     }
+
+    /* Estilos para la barra de desplazamiento */
+    ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #8B5E3C;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4A3428;
+}
+
+/* Para Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #8B5E3C #f1f1f1;
+}
+
+/* Asegurar que el contenido sea scrolleable */
+.overflow-x-auto {
+    scrollbar-width: thin;
+    scrollbar-color: #8B5E3C #f1f1f1;
+}
+
+/* Para el navbar horizontal */
+.navbar::-webkit-scrollbar {
+    height: 4px;
+}
+
+.navbar::-webkit-scrollbar-thumb {
+    background-color: rgba(139, 94, 60, 0.5);
+}
+
+.navbar::-webkit-scrollbar-track {
+    background-color: rgba(241, 241, 241, 0.5);
+}
+
+/* Nueva paleta de colores para cafetería */
+:root {
+  --color-coffee-dark: #4A3428;
+  --color-coffee-medium: #8B5E3C;
+  --color-coffee-light: #BC8A5F;
+  --color-cream: #F5E6D3;
+  --color-accent: #D4A373;
+}
+
+/* Actualización de estilos base */
+body {
+  background-color: var(--color-cream);
+}
+
+/* Estilos del navbar */
+.bg-blue-800 {
+  background-color: var(--color-coffee-dark);
+}
+
+.bg-blue-700, .bg-blue-600:hover {
+  background-color: var(--color-coffee-medium);
+}
+
+.hover\:bg-blue-600:hover {
+  background-color: var(--color-accent);
+}
+
+/* Estilos de los botones */
+.bg-blue-500 {
+  background-color: var(--color-coffee-medium);
+}
+
+.hover\:bg-blue-600 {
+  background-color: var(--color-accent);
+}
+
+/* Personalización de la barra de desplazamiento */
+::-webkit-scrollbar-thumb {
+  background: var(--color-coffee-medium);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-coffee-dark);
+}
+
+/* Estilos de las tarjetas */
+.bg-white {
+  background-color: #FFF9F0;
+  box-shadow: 0 4px 6px rgba(74, 52, 40, 0.1);
+}
+
+.focus\:ring-blue-500:focus {
+  --tw-ring-color: var(--color-coffee-medium);
+}
+
+/* Estilo para los bordes */
+.border {
+  border-color: var(--color-coffee-light);
+}
+
+/* Mejoras en la legibilidad */
+.text-gray-800 {
+  color: var(--color-coffee-dark);
+}
+
+.text-blue-200 {
+  color: var(--color-cream);
+}
+  .nav-btn {
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+        .table-container {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.8)
+        }

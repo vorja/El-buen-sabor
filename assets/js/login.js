@@ -1,4 +1,4 @@
- document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
       const loginForm = document.getElementById('loginForm');
       const emailInput = document.getElementById('email');
       const passwordInput = document.getElementById('password');
@@ -167,23 +167,3 @@
         alert('Funcionalidad de recuperación de contraseña no implementada.');
       });
     });
-
-    // Add floating animation for coffee beans
-    document.styleSheets[0].insertRule(`
-      @keyframes float {
-        0% {
-          transform: translateY(0) rotate(45deg);
-          opacity: 0;
-        }
-        10% {
-          opacity: 0.1;
-        }
-        90% {
-          opacity: 0.1;
-        }
-        100% {
-          transform: translateY(-100vh) rotate(45deg);
-          opacity: 0;
-        }
-      }
-    `, document.styleSheets[0].cssRules.length);
