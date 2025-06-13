@@ -1,95 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
       const loginForm = document.getElementById('loginForm');
-      const emailInput = document.getElementById('email');
-      const passwordInput = document.getElementById('password');
+      const nombreInput = document.getElementById('nombre');
       const submitBtn = document.getElementById('submitBtn');
       const loginCard = document.getElementById('loginCard');
       const welcomeMessage = document.getElementById('welcomeMessage');
-      const loginError = document.getElementById('loginError');
       const userName = document.getElementById('userName');
-      const rememberMe = document.getElementById('rememberMe');
-      const recoverBtn = document.getElementById('recoverBtn');
 
       // Create floating coffee beans
       createCoffeeBeans();
       createCoffeeGrains();
       
-      // Email validation on input
-      emailInput.addEventListener('input', function() {
-        validateEmail();
-      });
-
-      // Password validation on input
-      passwordInput.addEventListener('input', function() {
-        validatePassword();
-      });
-
-      function validateEmail() {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const isValid = emailRegex.test(emailInput.value);
-        
-        if (!isValid && emailInput.value !== '') {
-          emailInput.classList.add('is-invalid');
-          return false;
-        } else {
-          emailInput.classList.remove('is-invalid');
-          return true;
-        }
-      }
-
-      function validatePassword() {
-        const isValid = passwordInput.value.length > 0;
-        
-        if (!isValid) {
-          passwordInput.classList.add('is-invalid');
-          return false;
-        } else {
-          passwordInput.classList.remove('is-invalid');
-          return true;
-        }
-      }
-
       // Form submission
       loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Validate form
-        const isEmailValid = validateEmail();
-        const isPasswordValid = validatePassword();
-        
-        if (isEmailValid && isPasswordValid) {
-          // Show loading state
-          submitBtn.classList.add('loading');
-          
-          // Simulate API call
-          setTimeout(function() {
-            submitBtn.classList.remove('loading');
+        if (nombreInput.value.trim()) {
+            submitBtn.classList.add('loading');
             
-            // Simulate login success (in a real app, this would be based on API response)
-            if (emailInput.value === 'demo@cafe.com' && passwordInput.value === 'password') {
-              // Store in localStorage if "Remember me" is checked
-              if (rememberMe.checked) {
-                localStorage.setItem('cafeToken', 'dummy-auth-token');
-                localStorage.setItem('cafeUser', emailInput.value);
-              }
-              
-              // Show success message
-              loginCard.style.opacity = '0';
-              setTimeout(() => {
-                loginCard.style.display = 'none';
-                userName.textContent = emailInput.value.split('@')[0];
-                welcomeMessage.style.display = 'block';
-                welcomeMessage.classList.add('animate__fadeIn');
-              }, 300);
-            } else {
-              // Show error message
-              loginError.style.display = 'block';
-              loginCard.classList.add('animate__animated', 'animate__shakeX');
-              setTimeout(() => {
-                loginCard.classList.remove('animate__animated', 'animate__shakeX');
-              }, 1000);
-            }
-          }, 1500);
+            setTimeout(() => {
+                loginCard.style.opacity = '0';
+                setTimeout(() => {
+                    loginCard.style.display = 'none';
+                    userName.textContent = nombreInput.value;
+                    welcomeMessage.style.display = 'block';
+                    welcomeMessage.classList.add('animate__fadeIn');
+                }, 300);
+                submitBtn.classList.remove('loading');
+            }, 1000);
         }
       });
 
@@ -155,15 +92,4 @@ document.addEventListener('DOMContentLoaded', function() {
           grainsContainer.appendChild(grain);
         }
       }
-
-      // Check if we have a stored token
-      if (localStorage.getItem('cafeToken')) {
-        emailInput.value = localStorage.getItem('cafeUser') || '';
-        rememberMe.checked = true;
-      }
-
-      // Acción del botón recuperar contraseña
-      recoverBtn.addEventListener('click', function() {
-        alert('Funcionalidad de recuperación de contraseña no implementada.');
-      });
     });
