@@ -5,43 +5,49 @@
 class MySQL {
 
     //Datos de conexion
-    private $ipServidor = "localhost";
-    private $usuarioBase = "root";
-    private $contrasena = "";
-    private $nombreBaseDatos = "florreina_bd";
+    private $host = "localhost";
+    private $user = "root";
+    private $password = "";
+    private $database = "elbuensabor";
+    private $conn;
 
-    private $conexion; // Ahora $this->conexion será un objeto mysqli
+    public function __construct() {
+        $this->connect();
+    }
 
-    //Metodo para conectar a la base de datos
-    public function conectar(){
-        // Usamos new mysqli() para obtener un objeto mysqli
-        $this->conexion = new mysqli($this->ipServidor, $this->usuarioBase, $this->contrasena, $this->nombreBaseDatos);
+    private function connect() {
+        try {
+            $this->conn = new mysqli($this->host, $this->user, $this->password, $this->database);
+            
+            if ($this->conn->connect_error) {
+                throw new Exception("Error de conexión: " . $this->conn->connect_error);
+            }
 
-        //Validar si hubo un error en la conexion
-        if ($this->conexion->connect_error){ // Acceder a connect_error del objeto
-            die("Error al conectar a la base de datos : " . $this->conexion->connect_error);
+            $this->conn->set_charset("utf8");
+        } catch (Exception $e) {
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }
-
-        //Establecer codificacion utf8 usando el método del objeto
-        $this->conexion->set_charset("utf8");
     }
 
     //Metodo para desconectar la base de datos
     public function desconectar(){
-        if($this->conexion){
-            $this->conexion->close(); // Usar el método close() del objeto
+        if($this->conn){
+            $this->conn->close(); // Usar el método close() del objeto
         }
     }
 
     // Método para obtener el objeto de conexión mysqli
     // ESTE ES EL MÉTODO CRUCIAL QUE FALTABA
     public function getConexion() {
-        return $this->conexion;
+        return $this->conn;
     }
 
     // Metodo para preparar una consulta (usando el objeto mysqli)
-    public function prepare($consulta) {
-        return $this->conexion->prepare($consulta);
+    public function prepare($query) {
+        if (!$this->conn) {
+            $this->connect();
+        }
+        return $this->conn->prepare($query);
     }
 
     // Metodo para ejecutar una consulta y devolver su resultaddo
@@ -49,21 +55,21 @@ class MySQL {
     // pero si mantienes esta, asegúrate de que no haya inyección SQL.
     public function efectuarConsulta($consulta){
         // Ya se estableció utf8 en conectar, pero si es necesario aquí:
-        // $this->conexion->query("SET NAMES 'utf8'");
-        // $this->conexion->query("SET CHARACTER SET 'utf8'");
+         $this->conn->query("SET NAMES 'utf8'");
+         $this->conn->query("SET CHARACTER SET 'utf8'");
 
-        $resultado = $this->conexion->query($consulta); // Usar el método query() del objeto
+        $resultado = $this->conn->query($consulta); // Usar el método query() del objeto
 
         if(!$resultado){
-            echo "Error en la consulta : " .$this->conexion->error; // Acceder a error del objeto
+            echo "Error en la consulta : " .$this->conn->error; // Acceder a error del objeto
         }
 
         return $resultado;
     }
 
      public function escape_string($string) {
-        if ($this->conexion) {
-            return mysqli_real_escape_string($this->conexion, $string);
+        if ($this->conn) {
+            return mysqli_real_escape_string($this->conn, $string);
         }
         return $string; // Retorna sin escapar si no hay conexión, aunque esto no debería ocurrir
     }
@@ -72,20 +78,50 @@ class MySQL {
     // Si los añades, podrías llamar a $mysql->beginTransaction() en lugar de $mysql->getConexion()->beginTransaction()
     /*
     public function beginTransaction() {
-        $this->conexion->begin_transaction();
+        $this->conn->begin_transaction();
     }
 
     public function commit() {
-        $this->conexion->commit();
+        $this->conn->commit();
     }
 
     public function rollback() {
-        $this->conexion->rollback();
+        $this->conn->rollback();
     }
 
     public function insertId() {
-        return $this->conexion->insert_id;
+        return $this->conn->insert_id;
     }
     */
+
+    public function insert($query, $params = []) {
+        if (!$this->conn) {
+            $this->connect();
+        }
+        
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Error en la preparación de la consulta: " . $this->conn->error);
+        }
+
+        if (!empty($params)) {
+            $types = str_repeat('s', count($params));
+            $stmt->bind_param($types, ...$params);
+        }
+
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
+    public function getLastInsertId() {
+        return $this->conn->insert_id;
+    }
+
+    public function __destruct() {
+        if ($this->conn) {
+            $this->conn->close();
+        }
+    }
 }
 ?>
