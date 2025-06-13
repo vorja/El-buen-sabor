@@ -26,21 +26,21 @@
         </div>
       </div>
       <div class="navbar flex space-x-1 md:space-x-4 py-2 overflow-x-auto">
-        <button class="nav-btn px-3 md:px-4 py-2 rounded-lg bg-blue-700 hover:bg-blue-600 font-medium transition-colors" data-section="inventario">
+        <a href="./dashboard.php" class="nav-btn px-3 md:px-4 py-2 rounded-lg bg-blue-700 hover:bg-blue-600 font-medium transition-colors" data-section="inventario">
           <i class="fas fa-boxes mr-1"></i> Inventario
-        </button>
-        <button class="nav-btn px-3 md:px-4 py-2 rounded-lg hover:bg-blue-600 font-medium transition-colors" data-section="empleados">
+        </a>
+        <a href="./empleados.php" class="nav-btn px-3 md:px-4 py-2 rounded-lg hover:bg-blue-600 font-medium transition-colors" data-section="empleados">
           <i class="fas fa-users mr-1"></i> Empleados
-        </button>
-        <button class="nav-btn px-3 md:px-4 py-2 rounded-lg hover:bg-blue-600 font-medium transition-colors" data-section="mesas">
+        </a>
+        <a href="./mesas.php" class="nav-btn px-3 md:px-4 py-2 rounded-lg hover:bg-blue-600 font-medium transition-colors" data-section="mesas">
           <i class="fas fa-chair mr-1"></i> Mesas
-        </button>
-        <button class="nav-btn px-3 md:px-4 py-2 rounded-lg hover:bg-blue-600 font-medium transition-colors" data-section="ventas">
+        </a>
+        <a href="./ventas.php" class="nav-btn px-3 md:px-4 py-2 rounded-lg hover:bg-blue-600 font-medium transition-colors" data-section="ventas">
           <i class="fas fa-cash-register mr-1"></i> Ventas
-        </button>
-        <button class="nav-btn px-3 md:px-4 py-2 rounded-lg hover:bg-blue-600 font-medium transition-colors" data-section="reporte">
+        </a>
+        <a href="./reporte.php" class="nav-btn px-3 md:px-4 py-2 rounded-lg hover:bg-blue-600 font-medium transition-colors" data-section="reporte">
           <i class="fas fa-chart-line mr-1"></i> Reporte
-        </button>
+        </a>
       </div>
     </div>
   </nav>
@@ -111,6 +111,6 @@
         </div>
       </div>
     </section>
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </body>
 </html>

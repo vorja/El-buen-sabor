@@ -10,7 +10,39 @@
     <link rel="stylesheet" href="../assets/css/empleados.css">
  </head>
  <body>
-    <section id="empleados" class="section">
+    <nav class="bg-blue-800 text-white shadow-lg fixed w-full z-10">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center py-3">
+        <div class="flex items-center">
+          <i class="fas fa-coffee text-2xl mr-2"></i>
+          <span class="font-bold text-xl">Café Manager</span>
+        </div>
+        <div class="hidden md:block">
+          <span class="text-sm text-blue-200">
+            <i class="fas fa-clock mr-1"></i> Última actualización: <span id="last-update">Ahora</span>
+          </span>
+        </div>
+      </div>
+      <div class="navbar flex space-x-1 md:space-x-4 py-2 overflow-x-auto">
+        <a href="./dashboard.php" class="nav-btn px-3 md:px-4 py-2 rounded-lg bg-blue-700 hover:bg-blue-600 font-medium transition-colors" data-section="inventario">
+          <i class="fas fa-boxes mr-1"></i> Inventario
+        </a>
+        <a href="./empleados.php" class="nav-btn px-3 md:px-4 py-2 rounded-lg hover:bg-blue-600 font-medium transition-colors" data-section="empleados">
+          <i class="fas fa-users mr-1"></i> Empleados
+        </a>
+        <a href="./mesas.php" class="nav-btn px-3 md:px-4 py-2 rounded-lg hover:bg-blue-600 font-medium transition-colors" data-section="mesas">
+          <i class="fas fa-chair mr-1"></i> Mesas
+        </a>
+        <a href="./ventas.php" class="nav-btn px-3 md:px-4 py-2 rounded-lg hover:bg-blue-600 font-medium transition-colors" data-section="ventas">
+          <i class="fas fa-cash-register mr-1"></i> Ventas
+        </a>
+        <a href="./reporte.php" class="nav-btn px-3 md:px-4 py-2 rounded-lg hover:bg-blue-600 font-medium transition-colors" data-section="reporte">
+          <i class="fas fa-chart-line mr-1"></i> Reporte
+        </a>
+      </div>
+    </div>
+  </nav>
+   
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Empleados</h2>
         <div class="flex space-x-2">
@@ -60,7 +92,8 @@
           </div>
         </div>
       </div>
-    </section>
     
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
  </body>
  </html>
