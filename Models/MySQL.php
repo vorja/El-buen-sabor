@@ -15,7 +15,7 @@ class MySQL {
         $this->connect();
     }
 
-    private function connect() {
+    public function connect() {
         try {
             $this->conn = new mysqli($this->host, $this->user, $this->password, $this->database);
             
