@@ -1,0 +1,198 @@
+  body {
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      background: linear-gradient(135deg, #d1a76b, #b07a45);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .particles, .coffee-grains {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .login-card {
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 420px;
+      width: 90%;
+      padding: 2.5rem;
+      z-index: 1;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .login-title {
+      font-family: 'Playfair Display', serif;
+      color: #604020;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+
+    .form-control {
+      border-radius: 8px;
+      padding: 12px 15px;
+      border: 1px solid #e0e0e0;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: #b07a45;
+      box-shadow: 0 0 0 0.25rem rgba(176, 122, 69, 0.25);
+    }
+
+    .form-control.is-invalid {
+      border-color: #dc3545;
+      animation: shake 0.5s;
+    }
+
+    .submit-btn, .recover-btn {
+      background: #b07a45;
+      border: none;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 500;
+      width: 100%;
+      margin-top: 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover, .recover-btn:hover {
+      background: #9a6939;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(176, 122, 69, 0.4);
+    }
+
+    .submit-btn:active, .recover-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 5px rgba(176, 122, 69, 0.4);
+    }
+
+    .submit-btn .spinner-border {
+      width: 1.5rem;
+      height: 1.5rem;
+      display: none;
+    }
+
+    .submit-btn.loading .btn-text {
+      visibility: hidden;
+    }
+
+    .submit-btn.loading .spinner-border {
+      display: inline-block;
+      position: absolute;
+      left: calc(50% - 0.75rem);
+      top: calc(50% - 0.75rem);
+    }
+
+    .form-check-input:checked {
+      background-color: #b07a45;
+      border-color: #b07a45;
+    }
+
+    .welcome-message {
+      display: none;
+      text-align: center;
+    }
+
+    .welcome-message h2 {
+      font-family: 'Playfair Display', serif;
+      color: #604020;
+      margin-bottom: 1rem;
+    }
+
+    .login-error {
+      color: #dc3545;
+      display: none;
+      font-size: 0.875rem;
+      margin-top: 1rem;
+      text-align: center;
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    /* Coffee beans animation in background */
+    .coffee-bean {
+      position: absolute;
+      background-color: rgba(96, 64, 32, 0.1);
+      border-radius: 50%;
+      transform: rotate(45deg);
+      z-index: 0;
+    }
+
+    .coffee-bean::before {
+      content: '';
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      width: 50%;
+      height: 50%;
+      background-color: rgba(96, 64, 32, 0.1);
+      border-radius: 50%;
+    }
+
+    /* Add new styling for the recover password link */
+    .recover-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      color: #6b4c22;
+      font-style: italic;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .recover-link:hover {
+      color: #b07a45;
+      text-decoration: underline;
+    }
+
+    /* Add responsive adjustments */
+    @media (max-width: 576px) {
+      .login-card {
+        padding: 1.5rem;
+        width: 95%;
+      }
+      
+      .form-control {
+        padding: 10px 12px;
+      }
+      
+      .submit-btn, .recover-btn {
+        padding: 10px;
+      }
+    }
+    
+    @media (max-height: 600px) {
+      body {
+        align-items: flex-start;
+        padding-top: 2rem;
+      }
+    }

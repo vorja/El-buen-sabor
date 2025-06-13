@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="stylesheet" href="../assets/css/login.css">
+    <link rel="stylesheet" href="../assets/css/loginUsuario.css">
 <body>
   <div class="particles" id="particles"></div>
   <div class="coffee-grains" id="coffeeGrains"></div>
@@ -23,27 +23,15 @@
         <div class="login-card" id="loginCard">
           <h1 class="login-title">Bienvenido a Cafetería</h1>
           
-          <form id="loginForm">
+         
+            
             <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" required placeholder="tucorreo@ejemplo.com">
+              <label for="nombre" class="form-label">Nombre Completo</label>
+              <input type="text" class="form-control" id="nombre" required placeholder="Tu nombre">
               <div class="invalid-feedback">
-                Por favor, introduce un email válido.
               </div>
             </div>
             
-            <div class="mb-3">
-              <label for="password" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="password" required placeholder="••••••••">
-              <div class="invalid-feedback">
-                La contraseña es obligatoria.
-              </div>
-            </div>
-            
-            <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="rememberMe">
-              <label class="form-check-label" for="rememberMe">Recordarme</label>
-            </div>
             
             <button type="submit" class="submit-btn" id="submitBtn">
               <span class="btn-text">Iniciar Sesión</span>
@@ -51,13 +39,7 @@
             </button>
           </form>
           
-          <!-- Replace the button with a link -->
-          <a href="#" class="recover-link" id="recoverBtn">Recuperar Contraseña</a>
-          
-          <div class="login-error" id="loginError">
-            Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.
-          </div>
-        </div>
+       
 
         <div class="welcome-message animate__animated" id="welcomeMessage">
           <h2>¡Hola, <span id="userName">Usuario</span>!</h2>
@@ -67,6 +49,6 @@
     </div>
   </div>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/js/login.js"></script>
+  <script src="../assets/js/loginUsuario.js"></script>
 </body>
 </html>
