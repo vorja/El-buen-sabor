@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Cafetería</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Agregar Chart.js antes de usar sus funciones -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
 </head>
 <body>
     <div class="container">
@@ -128,8 +128,8 @@
                             <i class="fas fa-star"></i>
                         </div>
                     </div>
-                    <div class="metric-value" style="font-size: 1.8rem;">Cappuccino</div>
-                    <div class="metric-subtitle">142 vendidos hoy</div>
+                    <div class="metric-value" style="font-size: 1.8rem;" id="ProductoPopular">Cappuccino</div>
+                    <div class="metric-subtitle" id="ventasHoy">142 vendidos hoy</div>
                     <div class="metric-trend">
                         <i class="fas fa-coffee"></i>
                         <span>$852 en ingresos</span>
@@ -234,4 +234,5 @@
         </main>
     </div>
 </body>
+<link rel="stylesheet" href="../assets/css/dashboard.css">
 </html>

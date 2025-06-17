@@ -36,6 +36,11 @@ class MySQL {
         }
     }
 
+    public function getStatusConexion()
+    {
+        return $this->conn !== null;
+    }
+
     // Método para obtener el objeto de conexión mysqli
     // ESTE ES EL MÉTODO CRUCIAL QUE FALTABA
     public function getConexion() {
