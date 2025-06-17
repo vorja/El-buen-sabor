@@ -41,6 +41,10 @@ class StatsController
                 $stats->getPedidosActivos(),
                 $stats->getClientesAtendidos(),
                 $stats->getProductoPopular(),
+                $stats->getVentasHoyComparado(),
+                $stats->getPedidosHoy(),
+
+                
             );
             self::handleResponse(true, 'Estadísticas obtenidas con éxito', $data);
         } catch (Exception $e) {

@@ -14,6 +14,12 @@ function actualizarMetricas() {
                 document.getElementById('clientesHoy').textContent = data.clientes_atendidos;
                 // Actualizar producto popular
                 document.getElementById('ProductoPopular').textContent = data.producto_popular;
+                // Actualizar producto popular Ventas
+                document.getElementById('ppVendidoHoy').textContent = data.cantidad_vendida +' Vendidos hoy';
+                 // Actualizar porcentaje
+                document.getElementById('porcentaje').textContent = data.variacion_porcentual +'%';
+                // Actualizar total pedidos
+                document.getElementById('total_pedidos').textContent = data.pedidos_hoy +' pedidos realizados';
             } else {
                 console.error('Error al obtener estadísticas:', response.message);
             }

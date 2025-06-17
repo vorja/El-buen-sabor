@@ -82,10 +82,10 @@
                         </div>
                     </div>
                     <div class="metric-value" id="ventasHoy">$2,450.75</div>
-                    <div class="metric-subtitle">89 pedidos realizados</div>
+                    <div class="metric-subtitle" id="total_pedidos">89 pedidos realizados</div>
                     <div class="metric-trend">
                         <i class="fas fa-arrow-up trend-positive"></i>
-                        <span class="trend-positive">+12.5%</span>
+                        <span class="trend-positive" id="porcentaje">+12.5%</span>
                         <span>vs ayer</span>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                         </div>
                     </div>
                     <div class="metric-value" style="font-size: 1.8rem;" id="ProductoPopular">Cappuccino</div>
-                    <div class="metric-subtitle" id="ventasHoy">142 vendidos hoy</div>
+                    <div class="metric-subtitle" id="ppVendidoHoy">142 vendidos hoy</div>
                     <div class="metric-trend">
                         <i class="fas fa-coffee"></i>
                         <span>$852 en ingresos</span>

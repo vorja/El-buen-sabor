@@ -51,6 +51,42 @@ class Stats
         $row = $result ? mysqli_fetch_assoc($result) : ["producto" => "", "total" => 0];
         return ["producto_popular" => $row["producto"], "cantidad_vendida" => (int)$row["total"]];
     }
+
+
+     public function getPedidosHoy()
+    {
+        $query = "SELECT count(*) as total FROM pagos WHERE DATE(creado) = CURDATE()";
+        $result = $this->mysql->efectuarConsulta($query);
+        $row = $result ? mysqli_fetch_assoc($result) : ["total" => 0];
+        return ["pedidos_hoy" => (int)$row["total"]];
+    }
+
+    public function getVentasHoyComparado()
+{
+    $queryHoy = "SELECT SUM(monto) AS total FROM pagos WHERE DATE(creado) = CURDATE()";
+    $resultHoy = $this->mysql->efectuarConsulta($queryHoy);
+    $rowHoy = $resultHoy ? mysqli_fetch_assoc($resultHoy) : ["total" => 0];
+    $ventasHoy = (float)$rowHoy["total"];
+
+    $queryAyer = "SELECT SUM(monto) AS total FROM pagos WHERE DATE(creado) = CURDATE() - INTERVAL 1 DAY";
+    $resultAyer = $this->mysql->efectuarConsulta($queryAyer);
+    $rowAyer = $resultAyer ? mysqli_fetch_assoc($resultAyer) : ["total" => 0];
+    $ventasAyer = (float)$rowAyer["total"];
+
+    if ($ventasAyer > 0) {
+        $porcentaje = (($ventasHoy - $ventasAyer) / $ventasAyer) * 100;
+    } elseif ($ventasHoy > 0) {
+        $porcentaje = 100;
+    } else {
+        $porcentaje = 0;
+    }
+
+    return [
+        "ventas_hoy" => $ventasHoy,
+        "ventas_ayer" => $ventasAyer,
+        "variacion_porcentual" => round($porcentaje, 2)
+    ];
+}
 }
 
 ?>
