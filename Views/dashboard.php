@@ -6,6 +6,7 @@
     <title>Dashboard - Cafetería</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Agregar Chart.js antes de usar sus funciones -->
+     <link rel="stylesheet" href="../assets/css/dashboard.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -233,5 +234,6 @@
             </section>
         </main>
     </div>
+    <script src="../assets/js/dashboard.js"></script>
 </body>
 </html>
