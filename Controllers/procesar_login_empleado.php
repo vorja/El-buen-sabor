@@ -24,7 +24,7 @@ if ($res && mysqli_num_rows($res) === 1) {
         $_SESSION['nombre']     = $u['nombre'];
         $_SESSION['correo']     = $u['email'];
         $_SESSION['rol']        = $u['rol_id'];
-        header('Location: ../index.php'); exit;
+        header('Location: ../views/dashboard.php'); exit;
     }
 }
 
