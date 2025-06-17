@@ -34,7 +34,7 @@
             
             
             <button type="submit" class="submit-btn" id="submitBtn">
-              <span class="btn-text">Iniciar Sesión</span>
+              <span class="btn-text">Entrar</span>
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
           </form>
