@@ -878,7 +878,7 @@
                         <option value="bajo">Bajo</option>
                         <option value="critico">Crítico</option>
                     </select>
-                    <button class="btn btn-secondary" onclick="clearFilters()">
+                    <button class="btn btn-secondary" id="clearFiltersBtn">
                         <i class="fas fa-times"></i>
                         Limpiar
                     </button>
@@ -915,7 +915,13 @@
                     <div class="stat-value" id="criticalStock">15</div>
                     <div class="stat-label">Stock Crítico</div>
                 </div>
-                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #f0e6ff; color: #8b00ff;">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-value" id="totalValue">$25,840</div>
+                    <div class="stat-label">Valor Total</div>
+                </div>
             </section>
 
             <!-- Main Table -->
@@ -934,8 +940,11 @@
                         <thead>
                             <tr>
                                 <th>Producto</th>
+                                <th>Categoría</th>
                                 <th>Stock Actual</th>
                                 <th>Stock Mínimo</th>
+                                <th>Precio Unitario</th>
+                                <th>Valor Total</th>
                                 <th>Estado</th>
                                 <th>Última Actualización</th>
                                 <th>Acciones</th>
