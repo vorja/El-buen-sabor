@@ -66,7 +66,7 @@ class MySQL {
         $resultado = $this->conn->query($consulta); // Usar el método query() del objeto
 
         if(!$resultado){
-            echo "Error en la consulta : " .$this->conn->error; // Acceder a error del objeto
+            throw "Error en la consulta : " .$this->conn->error; // Acceder a error del objeto
         }
 
         return $resultado;

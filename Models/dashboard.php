@@ -87,6 +87,10 @@ class Stats
         "variacion_porcentual" => round($porcentaje, 2)
     ];
 }
+
+
+
+
 }
 
 ?>
