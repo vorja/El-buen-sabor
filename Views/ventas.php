@@ -1,3 +1,53 @@
+<?php
+// Views/ventas.php
+require_once __DIR__ . '/../models/MySQL.php';
+session_start();
+
+// Conexión
+$mysql = new MySQL();
+$conn  = $mysql->getConexion();
+
+// Consulta para recuperar el historial de pedidos
+$sql = "
+     SELECT
+      p.id AS venta_id,
+      DATE_FORMAT(p.creado, '%d/%m/%Y %H:%i') AS fecha_hora,
+      c.nombre AS cliente,
+      GROUP_CONCAT(CONCAT(dp.cantidad,'× ', pr.nombre) SEPARATOR ', ') AS productos,
+      p.total AS total_venta,
+      p.estado,
+      GROUP_CONCAT(DISTINCT pa.metodo SEPARATOR ', ') AS metodos_pago
+    FROM pedidos p
+    JOIN sesiones_mesa s ON s.id = p.sesion_id
+    JOIN clientes c      ON c.id = s.cliente_id
+    JOIN detalles_pedido dp ON dp.pedido_id = p.id
+    JOIN productos pr    ON pr.id = dp.producto_id
+    LEFT JOIN pagos pa   ON pa.pedido_id = p.id
+    WHERE p.estado IN ('en_cocina','entregado','cerrado','anulado')
+    GROUP BY p.id
+    ORDER BY p.creado DESC
+";
+$result = $mysql->efectuarConsulta($sql);
+$sqlEvol = "
+  SELECT 
+    MONTH(creado)   AS mes_num,
+    DATE_FORMAT(creado, '%b') AS mes_label,
+    SUM(total)      AS total_mes
+  FROM pedidos
+  WHERE estado = 'cerrado'
+  GROUP BY YEAR(creado), MONTH(creado)
+  ORDER BY YEAR(creado), MONTH(creado)
+";
+$resEvol = $mysql->efectuarConsulta($sqlEvol);
+
+$meses      = [];
+$ventasMes  = [];
+while ($row = mysqli_fetch_assoc($resEvol)) {
+    $meses[]     = $row['mes_label'];     // 'Ene','Feb',...
+    $ventasMes[] = (float)$row['total_mes'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -223,78 +273,29 @@
                         </tr>
                     </thead>
                     <tbody id="ventasTableBody">
+                       <?php while ($row = mysqli_fetch_assoc($result)): ?>
                         <tr>
-                            <td>#V001</td>
-                            <td>17/06/2025 14:23</td>
-                            <td>Ana García</td>
-                            <td>2x Cappuccino, 1x Croissant</td>
-                            <td>$18.50</td>
-                            <td><span class="status-badge status-completed">Completado</span></td>
-                            <td>Tarjeta</td>
+                            <td>#V<?= htmlspecialchars($row['venta_id']) ?></td>
+                            <td><?= htmlspecialchars($row['fecha_hora']) ?></td>
+                            <td><?= htmlspecialchars($row['cliente']) ?></td>
+                            <td><?= htmlspecialchars($row['productos']) ?></td>
+                            <td>$<?= number_format($row['total_venta'], 2) ?></td>
+                            <td>
+                              <span class="status-badge 
+                                <?php
+                                  switch($row['estado']){
+                                    case 'entregado': echo 'status-completed'; break;
+                                    case 'cerrado':    echo 'status-completed'; break;
+                                    case 'anulado':    echo 'status-cancelled'; break;
+                                    default:           echo 'status-pending'; break;
+                                  }
+                                ?>">
+                                <?= ucfirst($row['estado']) ?>
+                              </span>
+                            </td>
+                            <td><?= htmlspecialchars($row['metodos_pago'] ?: '—') ?></td>
                         </tr>
-                        <tr>
-                            <td>#V002</td>
-                            <td>17/06/2025 14:20</td>
-                            <td>Carlos López</td>
-                            <td>1x Americano, 1x Sandwich</td>
-                            <td>$12.00</td>
-                            <td><span class="status-badge status-completed">Completado</span></td>
-                            <td>Efectivo</td>
-                        </tr>
-                        <tr>
-                            <td>#V003</td>
-                            <td>17/06/2025 14:18</td>
-                            <td>María Rodríguez</td>
-                            <td>1x Latte, 2x Muffin</td>
-                            <td>$15.75</td>
-                            <td><span class="status-badge status-pending">Pendiente</span></td>
-                            <td>Transferencia</td>
-                        </tr>
-                        <tr>
-                            <td>#V004</td>
-                            <td>17/06/2025 14:15</td>
-                            <td>José Martínez</td>
-                            <td>1x Espresso</td>
-                            <td>$9.00</td>
-                            <td><span class="status-badge status-completed">Completado</span></td>
-                            <td>Tarjeta</td>
-                        </tr>
-                        <tr>
-                            <td>#V005</td>
-                            <td>17/06/2025 14:12</td>
-                            <td>Laura Fernández</td>
-                            <td>3x Cappuccino, 1x Tarta</td>
-                            <td>$24.30</td>
-                            <td><span class="status-badge status-cancelled">Cancelado</span></td>
-                            <td>Efectivo</td>
-                        </tr>
-                        <tr>
-                            <td>#V006</td>
-                            <td>17/06/2025 14:10</td>
-                            <td>Pedro Sánchez</td>
-                            <td>2x Americano, 1x Bagel</td>
-                            <td>$13.25</td>
-                            <td><span class="status-badge status-completed">Completado</span></td>
-                            <td>Tarjeta</td>
-                        </tr>
-                        <tr>
-                            <td>#V007</td>
-                            <td>17/06/2025 14:08</td>
-                            <td>Sofía Castro</td>
-                            <td>1x Latte, 1x Galleta</td>
-                            <td>$8.50</td>
-                            <td><span class="status-badge status-completed">Completado</span></td>
-                            <td>Efectivo</td>
-                        </tr>
-                        <tr>
-                            <td>#V008</td>
-                            <td>17/06/2025 14:05</td>
-                            <td>Miguel Torres</td>
-                            <td>1x Cappuccino, 1x Croissant</td>
-                            <td>$11.75</td>
-                            <td><span class="status-badge status-pending">Pendiente</span></td>
-                            <td>Transferencia</td>
-                        </tr>
+                        <?php endwhile; ?>
                     </tbody>
                 </table>
                 
