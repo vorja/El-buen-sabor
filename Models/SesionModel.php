@@ -1,6 +1,7 @@
 <?php
 namespace Models;
-use Database;
+require_once __DIR__ . '/Database.php';
+use Models\Database;
 
 class SesionModel {
     // Crear nueva sesión de mesa cuando un cliente ingresa (devuelve el ID de sesión nuevo)

@@ -1,6 +1,7 @@
 <?php
 namespace Models;
-use Database;
+require_once __DIR__ . '/Database.php';
+use Models\Database;
 
 class DetallePedidoModel {
     // Agregar un producto al pedido (devuelve true/false según éxito)

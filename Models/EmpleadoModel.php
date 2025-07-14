@@ -1,7 +1,8 @@
 <?php
 namespace Models;
 use Database;
-
+require_once __DIR__ . '/../Models/Database.php';
+require_once __DIR__ . '/../Models/EmpleadoModel.php';
 class EmpleadoModel {
     // Verifica credenciales de un empleado (mesero o admin) por correo y contraseña
     public static function verificarLogin($correo, $password) {

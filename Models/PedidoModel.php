@@ -1,6 +1,7 @@
 <?php
 namespace Models;
-use Database;
+require_once __DIR__ . '/Database.php';
+use Models\Database;
 
 class PedidoModel {
     // Crear un nuevo pedido (en estado 'en_progreso') para una sesión de mesa

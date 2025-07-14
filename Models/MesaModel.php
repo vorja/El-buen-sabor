@@ -1,6 +1,7 @@
 <?php
 namespace Models;
-use Database;
+require_once __DIR__ . '/Database.php';
+use Models\Database;
 
 class MesaModel {
     // Obtener todas las mesas (o las de cierto mesero si se aplica asignación estática)

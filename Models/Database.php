@@ -6,17 +6,18 @@ use PDOException;
 
 class Database {
     private static $pdo = null;
-    private static $host = "localhost";
-    private static $db   = "elbuensabor";
-    private static $user = "root";
-    private static $pass = "";
+    private static $host = '127.0.0.1';
+    private static $db   = 'elbuensabor';
+    private static $user = 'root';
+    private static $pass = '';
 
     public static function getConnection() {
         if (self::$pdo === null) {
-            $dsn = "mysql:host=" . self::$host . ";dbname=" . self::$db . ";charset=utf8";
+            $dsn = "mysql:host=".self::$host.";dbname=".self::$db.";charset=utf8";
             try {
-                self::$pdo = new PDO($dsn, self::$user, self::$pass);
-                self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                self::$pdo = new PDO($dsn, self::$user, self::$pass, [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+                ]);
             } catch (PDOException $e) {
                 die("Error de conexión: " . $e->getMessage());
             }
@@ -24,21 +25,18 @@ class Database {
         return self::$pdo;
     }
 
-    // Método auxiliar para consultas SELECT que devuelven múltiples filas
-    public static function queryAll($sql, $params = []) {
-        $stmt = self::getConnection()->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Método auxiliar para consulta SELECT que devuelve una sola fila
     public static function queryOne($sql, $params = []) {
         $stmt = self::getConnection()->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Método auxiliar para INSERT/UPDATE/DELETE
+    public static function queryAll($sql, $params = []) {
+        $stmt = self::getConnection()->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function execute($sql, $params = []) {
         $stmt = self::getConnection()->prepare($sql);
         return $stmt->execute($params);

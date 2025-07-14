@@ -1,6 +1,7 @@
 <?php
 namespace Models;
-use Database;
+require_once __DIR__ . '/Database.php';
+use Models\Database;
 
 class ClienteModel {
     // Crear un nuevo cliente en la BD
