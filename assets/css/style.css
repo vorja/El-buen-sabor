@@ -93,3 +93,31 @@ h1, h2, h3, h4 {
 .mesa-card.libre {
   border-left: 5px solid #5cb85c;
 }
+
+/* Panel de Pedidos */
+.bg-secondary-coffee {
+  background-color: var(--secondary-coffee) !important;
+}
+
+/* Encabezados de tarjeta */
+.card-header h5 {
+  font-size: 1.1rem;
+}
+
+/* Tabla de detalle */
+.table-hover tbody tr:hover {
+  background-color: rgba(166,124,82,0.1);
+}
+
+/* Botones grandes */
+.btn-lg {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+}
+
+/* Badges de estado */
+.badge.bg-info {
+  background-color: var(--accent-coffee);
+  color: #fff;
+  font-size: 0.9rem;
+}

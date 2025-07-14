@@ -40,6 +40,7 @@ $baseUrl = '/El-buen-sabor';
             <li class="nav-item"><a class="nav-link" href="Views/admin/reportes.php">Reportes</a></li>
           <?php elseif (isset($_SESSION['rol']) && $_SESSION['rol']==1): ?>
             <li class="nav-item"><a class="nav-link" href="Views/mesero/mesas.php">Mesas</a></li>
+            <li class="nav-item"><a class="nav-link" href="Views/mesero/pedido.php">Mis Pedidos</a></li>
           <?php endif; ?>
           <?php if (isset($_SESSION['empleado_id'])): ?>
             <li class="nav-item">

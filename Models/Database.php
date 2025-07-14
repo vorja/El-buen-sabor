@@ -25,19 +25,19 @@ class Database {
         return self::$pdo;
     }
 
-    public static function queryOne($sql, $params = []) {
+    public static function queryOne(string $sql, array $params = []): ?array {
         $stmt = self::getConnection()->prepare($sql);
         $stmt->execute($params);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
-    public static function queryAll($sql, $params = []) {
+    public static function queryAll(string $sql, array $params = []): array {
         $stmt = self::getConnection()->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function execute($sql, $params = []) {
+    public static function execute(string $sql, array $params = []): bool {
         $stmt = self::getConnection()->prepare($sql);
         return $stmt->execute($params);
     }
