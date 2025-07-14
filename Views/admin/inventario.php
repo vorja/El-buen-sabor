@@ -8,15 +8,15 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 2) {
 require_once __DIR__ . '/../../Models/Database.php';
 use Models\Database;
 
-// Cargar categorías para el select
+// Cargar categorías y productos
 $categorias = Database::queryAll("SELECT id,nombre FROM categorias ORDER BY nombre");
-// Cargar productos para la tabla
 $productos  = Database::queryAll("
   SELECT p.*, c.nombre AS categoria
     FROM productos p
     LEFT JOIN categorias c ON c.id = p.categoria_id
    ORDER BY p.nombre
 ");
+
 $pageTitle = "Inventario";
 require_once __DIR__ . '/../partials/header.php';
 ?>

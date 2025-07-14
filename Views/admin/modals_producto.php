@@ -1,11 +1,12 @@
 <?php
-// Este archivo espera que $categorias y $productos estén definidos
+// Views/admin/modals_producto.php
+// Utiliza $categorias y $productos definidos en inventario.php
 ?>
 
 <!-- Modal: Agregar Producto -->
 <div class="modal fade" id="modalAgregarProducto" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
-    <form action="../../Controllers/ProductoController.php" method="POST" enctype="multipart/form-data">
+    <form action="/El-buen-sabor/Controllers/ProductoController.php" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="accion" value="crear">
       <div class="modal-content">
         <div class="modal-header">
@@ -48,6 +49,10 @@
             <input type="number" step="0.01" name="precio_unitario" class="form-control" required>
           </div>
           <div class="mb-3">
+            <label class="form-label">Descripción (opcional)</label>
+            <textarea name="descripcion" class="form-control"></textarea>
+          </div>
+          <div class="mb-3">
             <label class="form-label">Imagen (opcional)</label>
             <input type="file" name="imagen" class="form-control">
           </div>
@@ -61,11 +66,11 @@
   </div>
 </div>
 
-<!-- Modals: Editar cada producto -->
+<!-- Modals: Editar Producto x ID -->
 <?php foreach($productos as $p): ?>
 <div class="modal fade" id="modalEditarProducto<?= $p['id'] ?>" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
-    <form action="../../Controllers/ProductoController.php" method="POST" enctype="multipart/form-data">
+    <form action="/El-buen-sabor/Controllers/ProductoController.php" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="accion" value="actualizar">
       <input type="hidden" name="id" value="<?= $p['id'] ?>">
       <div class="modal-content">
@@ -108,8 +113,12 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Precio Unitario</label>
-            <input type="number" step="0.01" name="precio_unitario" class="form-control"
+            <input type="number" step="0.01" name="precio_unitario" class="form-control" 
                    value="<?= number_format($p['precio_unitario'],2) ?>" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Descripción (opcional)</label>
+            <textarea name="descripcion" class="form-control"><?= htmlspecialchars($p['descripcion']) ?></textarea>
           </div>
           <div class="mb-3">
             <label class="form-label">Imagen (opcional)</label>

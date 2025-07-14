@@ -1,5 +1,6 @@
 <?php
 // Controllers/ProductoController.php
+
 require_once __DIR__ . '/../Models/Database.php';
 require_once __DIR__ . '/../Models/ProductoModel.php';
 
