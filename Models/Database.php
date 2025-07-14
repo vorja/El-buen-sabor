@@ -12,7 +12,6 @@ class Database {
     private static string $user = 'root';
     private static string $pass = '';
 
-    /** Devuelve la instancia PDO única */
     public static function getConnection(): PDO {
         if (self::$pdo === null) {
             $dsn = 'mysql:host=' . self::$host . ';dbname=' . self::$db . ';charset=utf8';
@@ -27,23 +26,21 @@ class Database {
         return self::$pdo;
     }
 
-    /** Retorna todas las filas de una consulta */
     public static function queryAll(string $sql, array $params = []): array {
         $stmt = self::getConnection()->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /** Retorna una sola fila o null */
     public static function queryOne(string $sql, array $params = []): ?array {
         $stmt = self::getConnection()->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
-    /** Ejecuta un INSERT/UPDATE/DELETE */
     public static function execute(string $sql, array $params = []): bool {
         $stmt = self::getConnection()->prepare($sql);
         return $stmt->execute($params);
     }
 }
+// End of Models/Database.php
