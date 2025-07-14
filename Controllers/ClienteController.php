@@ -6,13 +6,12 @@ require_once __DIR__ . '/../Models/PedidoModel.php';
 session_start();
 
 class ClienteController {
-    // Procesar ingreso del cliente (nombre y email) al escanear QR
     public static function registrarIngreso($token, $nombre, $email) {
         // Buscar el token en la BD
         $tokenData = Models\MesaModel::obtenerToken($token);
         if (!$tokenData) {
             // Token inválido o expirado
-            header("Location: ../Views/cliente/error_token.php");
+             header("Location: ../Views/cliente/loginCliente.php?token=$token&error=token");
             exit;
         }
         $mesaId   = $tokenData['mesa_id'];

@@ -3,7 +3,6 @@ namespace Models;
 require_once __DIR__ . '/Database.php';
 use Models\Database;
 
-use Models\Database;
 
 
 class ProductoModel {

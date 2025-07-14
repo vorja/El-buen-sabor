@@ -44,7 +44,7 @@ $pendientes = Models\Database::queryAll(
             <td><?= htmlspecialchars($p['mesero']) ?></td>
             <td>$<?= number_format($p['total'], 2) ?></td>
             <td>
-              <a href="cobrar.php?pedido=<?= $p['id'] ?>" class="btn btn-primary">Cobrar</a>
+              <a href="cobrar.php?pedido=<?= $p['id'] ?>" class="btn btn-primary">Pagar</a>
             </td>
           </tr>
           <?php endforeach; ?>
