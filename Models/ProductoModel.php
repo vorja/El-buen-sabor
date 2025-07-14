@@ -1,28 +1,51 @@
 <?php
+// Models/ProductoModel.php
 namespace Models;
 require_once __DIR__ . '/Database.php';
+
 use Models\Database;
 
 class ProductoModel {
-    public static function obtenerProductos(bool $soloActivos = true): array {
-        $sql = "
-          SELECT 
-            pr.id,
-            pr.nombre,
-            pr.descripcion,
-            pr.precio_unitario,
-            pr.stock,
-            pr.disponibilidad,
-            pr.tipo_inventario,
-            pr.stock_minimo,
-            c.nombre AS categoria
-          FROM productos pr
-          LEFT JOIN categorias c ON pr.categoria_id = c.id
-        ";
-        if ($soloActivos) {
-            $sql .= " WHERE pr.activo = 1";
-        }
-        $sql .= " ORDER BY pr.nombre";
-        return Database::queryAll($sql);
-    }
+  public static function crear(array $d): void {
+    $sql = "INSERT INTO productos
+      (categoria_id,nombre,descripcion,imagen,activo,tipo_inventario,stock,disponibilidad,precio_unitario)
+     VALUES (?,?,?,?,1,?,?,?,?)";
+    Database::execute(
+      $sql,
+      [
+        $d['categoria_id'],
+        $d['nombre'],
+        $d['descripcion'] ?? null,
+        $d['imagen']      ?? null,
+        $d['tipo_inventario'],
+        $d['stock'],
+        $d['disponibilidad'],
+        $d['precio_unitario']
+      ]
+    );
+  }
+
+  public static function actualizar(int $id, array $d): void {
+    $sql = "UPDATE productos SET
+        categoria_id=?, nombre=?, descripcion=?, imagen=?, tipo_inventario=?, stock=?, disponibilidad=?, precio_unitario=?
+      WHERE id=?";
+    Database::execute(
+      $sql,
+      [
+        $d['categoria_id'],
+        $d['nombre'],
+        $d['descripcion'] ?? null,
+        $d['imagen']      ?? null,
+        $d['tipo_inventario'],
+        $d['stock'],
+        $d['disponibilidad'],
+        $d['precio_unitario'],
+        $id
+      ]
+    );
+  }
+
+  public static function borrar(int $id): void {
+    Database::execute("DELETE FROM productos WHERE id=?", [$id]);
+  }
 }
