@@ -5,6 +5,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 2) {
     header("Location: ../login.php");
     exit;
 }
+require_once __DIR__ . '/../partials/header.php';
 require_once __DIR__ . '/../../Models/PedidoModel.php';
 require_once __DIR__ . '/../../Models/DetallePedidoModel.php';
 $pedidoId = $_GET['pedido'] ?? null;
@@ -71,5 +72,6 @@ $cliente = Models\Database::queryOne(
       <a href="ventas.php" class="btn btn-secondary">Cancelar</a>
     </form>
   </div>
+    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>

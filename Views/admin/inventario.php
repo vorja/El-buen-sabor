@@ -6,6 +6,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 2) {
     exit;
 }
 require_once __DIR__ . '/../../Models/ProductoModel.php';
+require_once __DIR__ . '/../partials/header.php';
 $productos = Models\ProductoModel::obtenerProductos(false);
 ?>
 <!DOCTYPE html>
@@ -96,5 +97,6 @@ $productos = Models\ProductoModel::obtenerProductos(false);
       </form>
     </div>
   </div>
+    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>

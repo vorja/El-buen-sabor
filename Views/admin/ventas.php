@@ -5,6 +5,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 2) {
     header("Location: ../login.php");
     exit;
 }
+require_once __DIR__ . '/../partials/header.php';
 require_once __DIR__ . '/../../Models/Database.php';
 $ventas = Models\Database::queryAll(
     "SELECT pd.id, pd.total, pd.creado, e.nombre as mesero 
@@ -69,5 +70,6 @@ $pendientes = Models\Database::queryAll(
       <div class="alert alert-success">Pedido #<?= htmlspecialchars($_GET['paid']) ?> cobrado con éxito.</div>
     <?php endif; ?>
   </div>
+    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>

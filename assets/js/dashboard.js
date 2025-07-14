@@ -1,34 +1,51 @@
-// Función para actualizar las métricas del dashboard
-function actualizarMetricas() {
-    // Obtener todas las estadísticas de una sola vez
-    fetch('../Controllers/dashboard.php?action=getEstadisticasPrincipales')
-        .then(response => response.json())
-        .then(response => {
-            if (response.success) {
-                const data = response.data;
-                // Actualizar ventas de hoy
-                document.getElementById('ventasHoy').textContent = '$' + data.ventas_hoy.toLocaleString();
-                // Actualizar pedidos activos
-                document.getElementById('pedidosActivos').textContent = data.pedidos_activos;
-                // Actualizar clientes atendidos
-                document.getElementById('clientesHoy').textContent = data.clientes_atendidos;
-                // Actualizar producto popular
-                document.getElementById('ProductoPopular').textContent = data.producto_popular;
-                // Actualizar producto popular Ventas
-                document.getElementById('ppVendidoHoy').textContent = data.cantidad_vendida +' Vendidos hoy';
-                 // Actualizar porcentaje
-                document.getElementById('porcentaje').textContent = data.variacion_porcentual +'%';
-                // Actualizar total pedidos
-                document.getElementById('total_pedidos').textContent = data.pedidos_hoy +' pedidos realizados';
-            } else {
-                console.error('Error al obtener estadísticas:', response.message);
-            }
-        })
-        .catch(error => console.error('Error al obtener estadísticas:', error));
-}
+// assets/js/dashboard.js
+document.addEventListener('DOMContentLoaded', () => {
+  // Datos incrustados desde PHP (asegúrate de imprimir estas variables en tu view)
+  const ventasLabels = <?= json_encode($labelsVentas) ?>;
+  const ventasData   = <?= json_encode($dataVentas) ?>;
+  const prodLabels   = <?= json_encode($labelsProd) ?>;
+  const prodData     = <?= json_encode($dataProd) ?>;
 
-// Actualizar las métricas cada 30 segundos
-document.addEventListener('DOMContentLoaded', function() {
-    actualizarMetricas();
-    setInterval(actualizarMetricas, 30000);
+  // Gráfica de ventas
+  new Chart(document.getElementById('chartVentas'), {
+    type: 'line',
+    data: {
+      labels: ventasLabels,
+      datasets: [{
+        label: 'Total Ventas (USD)',
+        data: ventasData,
+        fill: true,
+        tension: 0.3,
+        borderColor: '#A67C52',
+        backgroundColor: 'rgba(166,124,82,0.2)'
+      }]
+    },
+    options: {
+      scales: {
+        x: { title: { display: true, text: 'Fecha' } },
+        y: { title: { display: true, text: 'Ventas (USD)' } }
+      }
+    }
+  });
+
+  // Gráfica de productos
+  new Chart(document.getElementById('chartProductos'), {
+    type: 'bar',
+    data: {
+      labels: prodLabels,
+      datasets: [{
+        label: 'Cantidad vendida',
+        data: prodData,
+        borderRadius: 5,
+        backgroundColor: 'rgba(111,78,55,0.7)'
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      scales: {
+        x: { title: { display: true, text: 'Cantidad' } },
+        y: { title: { display: true, text: 'Producto' } }
+      }
+    }
+  });
 });

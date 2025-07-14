@@ -5,6 +5,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 2) {
     header("Location: ../login.php");
     exit;
 }
+require_once __DIR__ . '/../partials/header.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -44,5 +45,6 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 2) {
       <button type="submit" name="reporte" value="inventario_pdf" class="btn btn-primary">Exportar Inventario PDF</button>
     </form>
   </div>
+  <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>

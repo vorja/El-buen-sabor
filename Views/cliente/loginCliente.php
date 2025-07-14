@@ -1,13 +1,13 @@
-<!-- Views/cliente/loginCliente.php -->
+
 <?php 
-// Verificar si ya hay sesión iniciada (por si el acompañante abre el link luego):
+
 session_start();
 if (isset($_SESSION['sesion_mesa_id'])) {
-    // Si ya hay sesión de mesa, ir directo al menú
     header("Location: menu.php");
     exit;
 }
-$token = $_GET['token'] ?? '';  // el token QR viene por URL
+
+$token = $_GET['token'] ?? '';  
 ?>
 <!DOCTYPE html>
 <html lang="es">

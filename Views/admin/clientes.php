@@ -6,6 +6,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 2) {
     exit;
 }
 require_once __DIR__ . '/../../Models/Database.php';
+require_once __DIR__ . '/../partials/header.php';
 $clientes = Models\Database::queryAll("SELECT * FROM clientes ORDER BY creado DESC");
 ?>
 <!DOCTYPE html>
@@ -33,5 +34,6 @@ $clientes = Models\Database::queryAll("SELECT * FROM clientes ORDER BY creado DE
       </tbody>
     </table>
   </div>
+    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>

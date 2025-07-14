@@ -1,0 +1,95 @@
+/* assets/css/style.css */
+
+/* Paleta cálida y suave */
+:root {
+  --primary-coffee: #6B433B;      /* oscuro pero suave */
+  --secondary-coffee: #DABFA7;    /* crema tostada */
+  --accent-coffee: #A67C52;       /* caramelo */
+  --bg-coffee: #FBF4EE;           /* muy claro */
+}
+
+/* Navbar */
+.bg-primary-coffee {
+  background-color: var(--primary-coffee) !important;
+}
+
+/* Botones primarios */
+.btn-primary {
+  background-color: var(--accent-coffee);
+  border-color: var(--accent-coffee);
+}
+.btn-primary:hover {
+  background-color: #916243;
+  border-color: #916243;
+}
+
+/* Fondo general */
+body {
+  background-color: var(--bg-coffee);
+}
+
+/* Tarjetas de producto */
+.card {
+  border: none;
+  border-radius: .75rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  transition: transform .2s;
+}
+.card:hover {
+  transform: translateY(-4px);
+}
+.card-title {
+  color: var(--primary-coffee);
+}
+.card-text {
+  color: #5a4d48;
+}
+
+/* Tablas */
+.table thead {
+  background-color: var(--secondary-coffee);
+}
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #fff;
+}
+.table-striped > tbody > tr:nth-of-type(even) {
+  background-color: #fdf8f5;
+}
+
+/* Encabezados */
+h1, h2, h3, h4 {
+  color: var(--primary-coffee);
+  margin-top: 1rem;
+  margin-bottom: .5rem;
+}
+
+/* Formularios */
+.form-control:focus {
+  border-color: var(--accent-coffee);
+  box-shadow: 0 0 0 .2rem rgba(166,124,82, .25);
+}
+
+/* Alertas */
+.alert {
+  border-radius: .5rem;
+}
+
+/* Rejilla de mesas */
+.mesas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px,1fr));
+  gap: 1rem;
+}
+.mesa-card {
+  padding: 1rem;
+  border-radius: .75rem;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,.05);
+  text-align: center;
+}
+.mesa-card.ocupada {
+  border-left: 5px solid #d9534f;
+}
+.mesa-card.libre {
+  border-left: 5px solid #5cb85c;
+}
