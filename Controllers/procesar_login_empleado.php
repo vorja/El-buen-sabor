@@ -1,33 +1,32 @@
-<?php	
-require_once '../models/MySQL.php';
+<?php
+// Controllers/procesar_login_empleado.php
+
 session_start();
 
-echo '<pre>'; print_r($_POST); echo '</pre>'; 
+// Ajusta estas rutas a donde tengas tus archivos
+require_once __DIR__ . '/../Models/Database.php';
+require_once __DIR__ . '/../Models/EmpleadoModel.php';
 
-$correo     = $_POST['correo']   ?? '';
-$contrasena = $_POST['password'] ?? '';
+// Capturamos credenciales del formulario
+$correo   = $_POST['correo'] ?? '';
+$password = $_POST['password'] ?? '';
 
-if ($correo === '' || $contrasena === '') {
-    header('Location: ../views/login.php?error=no_data'); exit;
-}
+// Usamos el modelo para verificar login
+$empleado = \Models\EmpleadoModel::verificarLogin($correo, $password);
+if ($empleado) {
+    // Guardar datos en sesión
+    $_SESSION['empleado_id']     = $empleado['id'];
+    $_SESSION['nombre_empleado'] = $empleado['nombre'];
+    $_SESSION['rol']             = $empleado['rol_id'];
 
-$mysql = new MySQL();
-$query = "SELECT id, nombre, email, `password`, rol_id
-          FROM empleados
-          WHERE email = '".$mysql->escape_string($correo)."'";
-$res = $mysql->efectuarConsulta($query);
-
-if ($res && mysqli_num_rows($res) === 1) {
-    $u = mysqli_fetch_assoc($res);
-    if (password_verify($contrasena, $u['password'])) {
-        $_SESSION['id_usuario'] = $u['id'];
-        $_SESSION['nombre']     = $u['nombre'];
-        $_SESSION['correo']     = $u['email'];
-        $_SESSION['rol']        = $u['rol_id'];
-        header('Location: ../views/dashboard.php'); exit;
+    // Redirigir según rol
+    if ($empleado['rol_id'] == 2) {
+        header("Location: ../Views/admin/dashboard.php");
+    } else {
+        header("Location: ../Views/mesero/mesas.php");
     }
+    exit;
+} else {
+    header("Location: ../Views/login.php?error=1");
+    exit;
 }
-
-header('Location: ../views/login.php?estado=invalid_credentials');
-exit;
-?>

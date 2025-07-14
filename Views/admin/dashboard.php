@@ -7,7 +7,7 @@
     <!-- Agregar Chart.js antes de usar sus funciones -->
      <link rel="stylesheet" href="../assets/css/dashboard.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../assets/js/dashboard.js"></script>
+    <script src="../../assets/js/dashboard.js"></script>
 </head>
 <body>
     <div class="container">
@@ -20,37 +20,37 @@
             <nav>
                 <ul class="nav-menu">
                     <li class="nav-item">
-                        <a href="../Views/dashboard.php" class="nav-link active" data-section="dashboard">
+                        <a href="../views/admin/dashboard.php" class="nav-link active" data-section="dashboard">
                             <i class="fas fa-tachometer-alt"></i>
                             Inicio 
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="../Views/ventas.php" class="nav-link" data-section="ventas">
+                        <a href="../views/admin/ventas.php" class="nav-link" data-section="ventas">
                             <i class="fas fa-chart-line"></i>
                             Ventas
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="../Views/inventario.php" class="nav-link" data-section="inventario">
+                        <a href="../views/admin/inventario.php" class="nav-link" data-section="inventario">
                             <i class="fas fa-boxes"></i>
                             Inventario
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="../Views/pedidos.php" class="nav-link" data-section="pedidos">
+                        <a href="../views/admin/pedidos.php" class="nav-link" data-section="pedidos">
                             <i class="fas fa-shopping-cart"></i>
                             Pedidos
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="../Views/clientes.php" class="nav-link" data-section="clientes">
+                        <a href="../views/admin/clientes.php" class="nav-link" data-section="clientes">
                             <i class="fas fa-users"></i>
                             Clientes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="../Views/reportes.php" class="nav-link" data-section="reportes">
+                        <a href="../views/admin/reportes.php" class="nav-link" data-section="reportes">
                             <i class="fas fa-file-alt"></i>
                             Reportes
                         </a>
@@ -234,7 +234,7 @@
             </section>
         </main>
     </div>
-    <script src="../assets/js/dashboard.js"></script>
+    <script src="../../assets/js/dashboard.js"></script>
 </body>
-<link rel="stylesheet" href="../assets/css/dashboard.css">
+<link rel="stylesheet" href="../../assets/css/dashboard.css">
 </html>
