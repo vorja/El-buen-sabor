@@ -58,7 +58,7 @@ require_once __DIR__ . '/../partials/header.php';
                   data-bs-target="#modalEditarProducto<?= $p['id'] ?>">
             <i class="bi bi-pencil-fill"></i>
           </button>
-          <a href="../../Controllers/ProductoController.php?accion=borrar&id=<?= $p['id'] ?>"
+          <a href="/El-buen-sabor/Controllers/ProductoController.php?accion=borrar&id=<?= $p['id'] ?>"
              class="btn btn-sm btn-danger"
              onclick="return confirm('¿Eliminar <?= addslashes($p['nombre']) ?>?')">
             <i class="bi bi-trash-fill"></i>
