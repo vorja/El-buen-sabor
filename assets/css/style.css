@@ -176,3 +176,56 @@ h1, h2, h3, h4 {
 body {
   background-color: var(--coffee-light);
 }
+
+:root {
+  --coffee-light: #fbf7f2;
+  --coffee-medium: #d8b89e;
+  --coffee-dark: #a38672;
+  --coffee-text-dark: #5b4534;
+}
+
+/* Navbar background personalizado */
+.bg-coffee-dark {
+  background-color: var(--coffee-dark) !important;
+}
+
+/* Brand y nav-links */
+.navbar-brand {
+  color: #fff !important;
+}
+.nav-link {
+  color: #fff !important;
+  font-size: 1.1rem;
+  padding: 0.6rem 1rem;
+}
+.nav-link:hover {
+  background-color: var(--coffee-medium) !important;
+  border-radius: 0.375rem;
+}
+
+/* Botón de Cerrar Sesión */
+.btn-outline-light {
+  border-color: #fff !important;
+  color: #fff !important;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.375rem;
+}
+.btn-outline-light:hover {
+  background-color: #fff !important;
+  color: var(--coffee-dark) !important;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.5rem;
+  }
+  .btn-outline-light {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+  .nav-link {
+    font-size: 1rem;
+    padding: 0.5rem 0.8rem;
+  }
+}

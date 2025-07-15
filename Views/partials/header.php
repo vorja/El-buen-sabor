@@ -23,37 +23,52 @@ $baseUrl = '/El-buen-sabor';
 
 </head>
 <body class="bg-light">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary-coffee">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="index.php">
-        <i class="fas fa-mug-hot"></i> El Buen Sabor
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-              data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false"
-              aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav ms-auto">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-coffee-dark">
+  <div class="container-fluid">
+    <!-- Brand -->
+    <a class="navbar-brand fs-3 fw-bold" href="/El-buen-sabor/Views/mesero/mesas.php">
+      El Buen Sabor
+    </a>
+
+    <!-- Toggler para móvil -->
+    <button class="navbar-toggler" type="button" 
+            data-bs-toggle="collapse" data-bs-target="#navbarMain" 
+            aria-controls="navbarMain" aria-expanded="false" 
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Links -->
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav me-auto">
           <?php if (isset($_SESSION['rol']) && $_SESSION['rol']==2): ?>
-            <li class="nav-item"><a class="nav-link" href="Views/admin/dashboard.php">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="Views/admin/ventas.php">Ventas</a></li>
-            <li class="nav-item"><a class="nav-link" href="Views/admin/inventario.php">Inventario</a></li>
-            <li class="nav-item"><a class="nav-link" href="Views/admin/reportes.php">Reportes</a></li>
+        <li class="nav-item mx-2"><a class="nav-link fw-semibold" href="Views/admin/dashboard.php">Dashboard</a></li>
+        <li class="nav-item mx-2"><a class="nav-link fw-semibold" href="Views/admin/ventas.php">Ventas</a></li>
+        <li class="nav-item mx-2"><a class="nav-link fw-semibold" href="Views/admin/inventario.php">Inventario</a></li>
+        <li class="nav-item mx-2"><a class="nav-link fw-semibold" href="Views/admin/reportes.php">Reportes</a></li>
           <?php elseif (isset($_SESSION['rol']) && $_SESSION['rol']==1): ?>
-            <li class="nav-item"><a class="nav-link" href="Views/mesero/mesas.php">Mesas</a></li>
-            <li class="nav-item"><a class="nav-link" href="Views/mesero/pedido.php">Mis Pedidos</a></li>
+        <li class="nav-item mx-2"><a class="nav-link fw-semibold" href="Views/mesero/mesas.php">Mesas</a></li>
+        <li class="nav-item mx-2"><a class="nav-link fw-semibold" href="Views/mesero/pedido.php">Mis Pedidos</a></li>
           <?php endif; ?>
           <?php if (isset($_SESSION['empleado_id'])): ?>
-            <li class="nav-item">
-              <a class="nav-link text-warning" href="Controllers/LoginController.php?action=logout">
-                <i class="fas fa-sign-out-alt"></i>
-              </a>
-            </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link fw-semibold text-warning" href="Controllers/LoginController.php?action=logout">
+        <i class="fas fa-sign-out-alt"></i>
+          </a>
+        </li>
           <?php endif; ?>
         </ul>
-      </div>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <form method="post" action="/El-buen-sabor/Controllers/AuthController.php?accion=logout" class="d-flex">
+            <button class="btn btn-outline-light btn-lg fw-semibold" type="submit">
+              Cerrar Sesión
+            </button>
+          </form>
+        </li>
+      </ul>
     </div>
-  </nav>
-
+  </div>
+</nav>
   <div class="container py-4">
+
