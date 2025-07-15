@@ -1,31 +1,39 @@
 <?php
-// Views/mesero/mesas.php
 session_start();
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
     header("Location: ../login.php");
     exit;
 }
-require_once __DIR__ . '/../../Models/Database.php';
 require_once __DIR__ . '/../../Models/MesaModel.php';
+use Models\MesaModel;
 
-// Obtener siempre las 6 mesas
-$mesas = \Models\MesaModel::obtenerMesas();  // Debe devolver 6 filas
-$pageTitle = "Mesas";
+$mesas = MesaModel::obtenerMesas();
 require_once __DIR__ . '/../partials/header.php';
 ?>
-
-<h2 class="mb-4">Selecciona tu Mesa</h2>
-<div class="row">
-  <?php foreach ($mesas as $mesa): ?>
-    <div class="col-6 col-md-4 mb-3">
-      <button 
-        class="btn btn-primary w-100 py-4"
-        onclick="location.href='../../Controllers/MeseroController.php?accion=generar_qr&mesa=<?= $mesa['id'] ?>'">
-        <i class="fas fa-table fa-2x"></i><br>
-        Mesa <?= htmlspecialchars($mesa['numero']) ?>
-      </button>
-    </div>
-  <?php endforeach; ?>
+<div class="container py-5">
+  <h1 class="text-center mb-4" style="color:#a38672;">Selecciona tu Mesa</h1>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    <?php foreach ($mesas as $m): ?>
+      <div class="col">
+        <div class="mesa-card h-100 d-flex flex-column justify-content-between">
+          <div>
+            <i class="fas fa-table fa-3x"></i>
+            <h4 class="mt-2" style="color:#5b4534;">Mesa <?= htmlspecialchars($m['numero']) ?></h4>
+          </div>
+          <?php if ($m['estado'] === 'libre'): ?>
+            <button
+              class="btn-coffee"
+              onclick="location.href='../../Controllers/MeseroController.php?accion=generar_qr&mesa=<?= $m['id'] ?>'">
+              Seleccionar
+            </button>
+          <?php else: ?>
+            <button class="btn-coffee" disabled>
+              Ocupada
+            </button>
+          <?php endif; ?>
+        </div>
+      </div>
+    <?php endforeach; ?>
+  </div>
 </div>
-
 <?php require_once __DIR__ . '/../partials/footer.php'; ?>
