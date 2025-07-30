@@ -1,13 +1,16 @@
 <!-- Views/admin/cobrar.php -->
 <?php 
 session_start();
+// Solo admins (rol = 2)
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 2) {
     header("Location: ../login.php");
     exit;
 }
-require_once __DIR__ . '/../partials/header.php';
+// Cargar modelo y obtener información del pedido
 require_once __DIR__ . '/../../Models/PedidoModel.php';
 require_once __DIR__ . '/../../Models/DetallePedidoModel.php';
+require_once __DIR__ . '/../../Models/Database.php';
+// Id del pedido que se va a cobrar
 $pedidoId = $_GET['pedido'] ?? null;
 if (!$pedidoId) {
     header("Location: ventas.php");
@@ -15,7 +18,11 @@ if (!$pedidoId) {
 }
 $pedido = Models\PedidoModel::obtenerPedido($pedidoId);
 if (!$pedido || $pedido['estado'] != 'entregado') {
-    echo "<p>El pedido no está pendiente de pago.</p>";
+    // Mostrar mensaje si el pedido no está pendiente de pago
+    $pageTitle = "Cobrar Pedido";
+    require_once __DIR__ . '/../partials/admin_header.php';
+    echo "<div class='alert alert-warning'>El pedido no está pendiente de pago.</div>";
+    require_once __DIR__ . '/../partials/admin_footer.php';
     exit;
 }
 $detalles = Models\DetallePedidoModel::obtenerDetalles($pedidoId);
@@ -26,52 +33,95 @@ $cliente = Models\Database::queryOne(
      JOIN pedidos pd ON pd.sesion_id = s.id 
      WHERE pd.id = ?", [ $pedidoId ]
 );
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cobrar Pedido #<?= htmlspecialchars($pedidoId) ?></title>
-  <link rel="stylesheet" href="../../assets/css/admin.css" />
-</head>
-<body>
-  <div class="container">
-    <h1>Cobrar Pedido #<?= htmlspecialchars($pedidoId) ?></h1>
-    <h3>Detalles:</h3>
-    <ul>
-      <?php foreach ($detalles as $item): ?>
-      <li><?= $item['nombre'] ?> (x<?= $item['cantidad'] ?>) - $<?= number_format($item['precio_unit'],2) ?> c/u</li>
-      <?php endforeach; ?>
-    </ul>
-    <p><strong>Total a pagar: $<?= number_format($pedido['total'], 2) ?></strong></p>
-    <hr>
-    <h3>Datos del Cliente</h3>
-    <form action="../../Controllers/AdminController.php" method="POST">
-      <?php if ($cliente): ?>
-      <p>Nombre registrado: <input type="text" name="nombre_cliente" value="<?= htmlspecialchars($cliente['nombre']) ?>"></p>
-      <p>Email: <input type="email" name="email_cliente" value="<?= htmlspecialchars($cliente['email']) ?>"></p>
-      <p>Documento: <input type="text" name="documento_cliente" value="<?= htmlspecialchars($cliente['documento'] ?? '') ?>"></p>
-      <input type="hidden" name="cliente_id" value="<?= $cliente['id'] ?>">
-      <?php else: ?>
-      <p><em>No hay cliente registrado para este pedido.</em></p>
-      <?php endif; ?>
 
-      <h4>Método de Pago:</h4>
-      <select name="metodo_pago" class="form-select">
-        <option value="efectivo">Efectivo</option>
-        <option value="tarjeta">Tarjeta</option>
-        <option value="qr_banco">QR Bancario</option>
-        <option value="online">Online</option>
-      </select>
-      <br>
-      <input type="hidden" name="cerrar_pedido_id" value="<?= $pedidoId ?>">
-      <button type="submit" class="btn btn-success" onclick="return confirm('Confirmar registro de pago?');">
-        Registrar Pago
-      </button>
-      <a href="ventas.php" class="btn btn-secondary">Cancelar</a>
-    </form>
+// Configurar título y cabecera de administración
+$pageTitle = "Cobrar Pedido #$pedidoId";
+require_once __DIR__ . '/../partials/admin_header.php';
+?>
+
+<div class="container-fluid">
+  <h2 class="mb-4">Cobrar Pedido #<?= htmlspecialchars($pedidoId) ?></h2>
+  <div class="row g-4">
+    <!-- Sección de detalles del pedido -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">Resumen del pedido</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-sm align-middle mb-3">
+              <thead class="table-light">
+                <tr>
+                  <th>Producto</th>
+                  <th>Cant.</th>
+                  <th>Precio</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($detalles as $item): ?>
+                <?php $subtotal = $item['cantidad'] * $item['precio_unit']; ?>
+                <tr>
+                  <td><?= htmlspecialchars($item['nombre']) ?></td>
+                  <td><?= $item['cantidad'] ?></td>
+                  <td>$<?= number_format($item['precio_unit'], 2) ?></td>
+                  <td>$<?= number_format($subtotal, 2) ?></td>
+                </tr>
+                <?php endforeach; ?>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th colspan="3" class="text-end">Total</th>
+                  <th>$<?= number_format($pedido['total'], 2) ?></th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Sección de datos del cliente y pago -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold">Datos del cliente y pago</div>
+        <div class="card-body">
+          <form action="Controllers/AdminController.php" method="POST" class="row g-3">
+            <?php if ($cliente): ?>
+            <div class="col-12">
+              <label class="form-label">Nombre registrado</label>
+              <input type="text" name="nombre_cliente" value="<?= htmlspecialchars($cliente['nombre']) ?>" class="form-control" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Email</label>
+              <input type="email" name="email_cliente" value="<?= htmlspecialchars($cliente['email']) ?>" class="form-control" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Documento</label>
+              <input type="text" name="documento_cliente" value="<?= htmlspecialchars($cliente['documento'] ?? '') ?>" class="form-control" required>
+            </div>
+            <input type="hidden" name="cliente_id" value="<?= $cliente['id'] ?>">
+            <?php else: ?>
+            <div class="col-12">
+              <div class="alert alert-info">No hay cliente registrado para este pedido.</div>
+            </div>
+            <?php endif; ?>
+            <div class="col-12">
+              <label class="form-label">Método de pago</label>
+              <select name="metodo_pago" class="form-select" readonly>
+                <option value="efectivo" selected>Efectivo</option>
+              </select>
+            </div>
+            <input type="hidden" name="cerrar_pedido_id" value="<?= $pedidoId ?>">
+            <div class="col-12 d-flex justify-content-between">
+              <a href="ventas.php" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-success" onclick="return confirm('¿Confirmar registro de pago?');">
+                Registrar Pago
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
-</body>
-</html>
+</div>
+
+<?php require_once __DIR__ . '/../partials/admin_footer.php'; ?>

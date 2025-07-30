@@ -109,7 +109,9 @@ $labelsMeseros = array_column($meseroRows, 'nombre');
 $dataMeseros  = array_map('floatval', array_column($meseroRows, 'total'));
 
 $pageTitle = "Dashboard";
-require_once __DIR__ . '/../partials/header.php';
+// Establecer título y cargar cabecera de administrador con barra lateral
+$pageTitle = "Dashboard";
+require_once __DIR__ . '/../partials/admin_header.php';
 ?>
 
 <!-- Métricas de Hoy -->
@@ -192,8 +194,6 @@ require_once __DIR__ . '/../partials/header.php';
   </div>
 </div>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
-
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -248,3 +248,5 @@ new Chart(document.getElementById('chartVentasMesero'), {
   }
 });
 </script>
+
+<?php require_once __DIR__ . '/../partials/admin_footer.php'; ?>

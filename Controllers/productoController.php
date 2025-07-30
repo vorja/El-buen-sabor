@@ -22,9 +22,17 @@ switch ($accion) {
     ];
     // Procesar imagen si la hay
     if (!empty($_FILES['imagen']['tmp_name'])) {
-      $destino = __DIR__ . '/../public/uploads/' . basename($_FILES['imagen']['name']);
+      // Directorio de subida dentro de assets/img/productos
+      $uploadDir = __DIR__ . '/../assets/img/productos/';
+      if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+      }
+      $extension = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
+      $fileName = uniqid('prod_') . '.' . $extension;
+      $destino = $uploadDir . $fileName;
       move_uploaded_file($_FILES['imagen']['tmp_name'], $destino);
-      $data['imagen'] = 'uploads/' . basename($_FILES['imagen']['name']);
+      // Guardar ruta relativa para mostrar
+      $data['imagen'] = 'assets/img/productos/' . $fileName;
     }
     ProductoModel::crear($data);
     header('Location: ../Views/admin/inventario.php?success=1');
@@ -42,10 +50,22 @@ switch ($accion) {
       'descripcion'     => $_POST['descripcion'] ?? null,
       'imagen'          => null
     ];
+    // Procesar imagen si la hay, si no mantener imagen actual
     if (!empty($_FILES['imagen']['tmp_name'])) {
-      $destino = __DIR__ . '/../public/uploads/' . basename($_FILES['imagen']['name']);
+      $uploadDir = __DIR__ . '/../assets/img/productos/';
+      if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+      }
+      $extension = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
+      $fileName = uniqid('prod_') . '.' . $extension;
+      $destino = $uploadDir . $fileName;
       move_uploaded_file($_FILES['imagen']['tmp_name'], $destino);
-      $data['imagen'] = 'uploads/' . basename($_FILES['imagen']['name']);
+      $data['imagen'] = 'assets/img/productos/' . $fileName;
+    } else {
+      // Mantener la imagen existente si no se sube una nueva
+      // Utilizar el modelo Database fuera de espacio de nombres
+      $existing = \Models\Database::queryOne("SELECT imagen FROM productos WHERE id = ?", [ $id ]);
+      $data['imagen'] = $existing['imagen'];
     }
     ProductoModel::actualizar($id, $data);
     header('Location: ../Views/admin/inventario.php?updated=1');

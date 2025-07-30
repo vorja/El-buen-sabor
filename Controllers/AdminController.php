@@ -83,7 +83,8 @@ class AdminController {
         $html .= "</table>";
 
         // Inicializar Dompdf y generar PDF
-        require_once __DIR__ . '/../lib/dompdf/autoload.inc.php';
+        // Cargar el autoload de Composer ubicado en lib/vendor/autoload.php
+        require_once __DIR__ . '/../lib/vendor/autoload.php';
         $dompdf = new Dompdf\Dompdf();
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
