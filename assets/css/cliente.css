@@ -1,0 +1,58 @@
+/* repository/assets/css/cliente.css
+ * Estilos personalizados para el formulario de ingreso del cliente.  La
+ * intención es ofrecer una interfaz más cálida y profesional,
+ * inspirada en el diseño de la página de inicio de sesión de
+ * empleados.  Se utiliza un fondo con textura de café y una
+ * tarjeta translúcida centrada en la pantalla.
+ */
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://images.unsplash.com/photo-1449247613801-ab06418e2861?auto=format&fit=crop&w=1400&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Poppins', sans-serif;
+  color: #5b4534;
+}
+
+.login-wrapper {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 2rem 2.5rem;
+  max-width: 420px;
+  width: 100%;
+}
+
+.login-wrapper h2 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #a38672;
+}
+
+.login-wrapper .form-label {
+  font-weight: 500;
+}
+
+.login-wrapper .btn-primary {
+  background-color: #a38672;
+  border-color: #a38672;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.login-wrapper .btn-primary:hover {
+  background-color: #8f715c;
+}
+
+.alert {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}

@@ -1,19 +1,26 @@
 <?php
+// repository/Views/mesero/mesas.php
+// Permite al mesero seleccionar una mesa libre para generar un código
+// QR. Muestra las mesas disponibles y su estado. Cuando se genera
+// un token se muestra un modal con el código QR para que el cliente
+// lo escanee.
+
 session_start();
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
-    header("Location: ../login.php");
+    header('Location: ../login.php');
     exit;
 }
+
 require_once __DIR__ . '/../../Models/MesaModel.php';
 use Models\MesaModel;
 
 $mesas = MesaModel::obtenerMesas();
-// Si se ha generado un token QR y se incluye en la URL, obténlo para mostrar el modal
-$tokenGenerado = $_GET['token'] ?? null;
+
+// Recuperar parámetros para mostrar el modal si se acaba de generar un token
+$tokenGenerado      = $_GET['token'] ?? null;
 $mesaSeleccionadaId = $_GET['mesa'] ?? null;
 $mesaSeleccionadaNumero = null;
 if ($tokenGenerado && $mesaSeleccionadaId) {
-    // Buscar el número de mesa correspondiente al ID seleccionado
     foreach ($mesas as $mx) {
         if ($mx['id'] == $mesaSeleccionadaId) {
             $mesaSeleccionadaNumero = $mx['numero'];
@@ -21,37 +28,32 @@ if ($tokenGenerado && $mesaSeleccionadaId) {
         }
     }
 }
+
 // Título de la página para el header
-$pageTitle = "Mesas";
+$pageTitle = 'Mesas';
 require_once __DIR__ . '/../partials/header_mesero.php';
 ?>
-<div class="container py-5">
-  <h1 class="text-center mb-4" style="color:#a38672;">Selecciona Mesa</h1>
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-    <?php foreach ($mesas as $m): ?>
-      <div class="col">
-        <div class="mesa-card h-100 d-flex flex-column justify-content-between">
-          <div>
-            <i class="fas fa-table fa-3x"></i>
-            <h4 class="mt-2" style="color:#5b4534;">Mesa <?= htmlspecialchars($m['numero']) ?></h4>
-          </div>
+
+<h2 class="mb-4">Selecciona Mesa</h2>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+  <?php foreach ($mesas as $m): ?>
+    <div class="col">
+      <div class="card h-100 shadow-sm d-flex flex-column justify-content-between">
+        <div class="p-3 text-center">
+          <i class="fas fa-table fa-3x mb-2"></i>
+          <h5 class="card-title">Mesa <?= htmlspecialchars($m['numero']) ?></h5>
+        </div>
+        <div class="card-body d-flex justify-content-center">
           <?php if ($m['estado'] === 'libre'): ?>
-            <button
-              class="btn-coffee"
-              onclick="location.href='Controllers/MeseroController.php?accion=generar_qr&mesa=<?= $m['id'] ?>'">
-              Seleccionar
-            </button>
+            <a href="../../Controllers/MeseroController.php?accion=generar_qr&mesa=<?= $m['id'] ?>" class="btn btn-primary">Seleccionar</a>
           <?php else: ?>
-            <button class="btn-coffee" disabled>
-              Ocupada
-            </button>
+            <button class="btn btn-secondary" disabled>Ocupada</button>
           <?php endif; ?>
         </div>
       </div>
-    <?php endforeach; ?>
-  </div>
+    </div>
+  <?php endforeach; ?>
 </div>
-<?php require_once __DIR__ . '/../partials/footer_mesero.php'; ?>
 
 <?php if ($tokenGenerado && $mesaSeleccionadaId && $mesaSeleccionadaNumero): ?>
   <!-- Modal para mostrar el código QR al mesero -->
@@ -59,17 +61,16 @@ require_once __DIR__ . '/../partials/header_mesero.php';
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="qrModalLabel">Código QR para Mesa <?= htmlspecialchars($mesaSeleccionadaNumero) ?></h5>
+          <h5 class="modal-title" id="qrModalLabel">Código QR para Mesa <?= htmlspecialchars($mesaSeleccionadaNumero) ?></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
         <div class="modal-body text-center">
-          <p>Solicite a su cliente que escanee este código QR para ingresar sus datos y comenzar el pedido.</p>
+          <p>Solicite al cliente que escanee este código QR para ingresar sus datos y comenzar el pedido.</p>
           <?php
-            // Construir la URL que el código QR debe contener. Incluir el id del mesero para
-            // asociar la mesa con el mesero cuando el cliente inicie sesión.
+            // Construir la URL que se codificará en el QR. Incluir el ID del mesero
             $meseroId = $_SESSION['empleado_id'] ?? '';
-            $qrLink = 'Views/cliente/loginCliente.php?token=' . urlencode($tokenGenerado) . '&mesero=' . urlencode($meseroId);
-            $qrImg  = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' . urlencode($qrLink);
+            $qrLink   = '../cliente/loginCliente.php?token=' . urlencode($tokenGenerado) . '&mesero=' . urlencode($meseroId);
+            $qrImg    = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' . urlencode($qrLink);
           ?>
           <img src="<?= $qrImg ?>" alt="Código QR" class="img-fluid mb-3" />
           <p class="small">Enlace: <a href="<?= $qrLink ?>" target="_blank"><?= htmlspecialchars($qrLink) ?></a></p>
@@ -81,10 +82,12 @@ require_once __DIR__ . '/../partials/header_mesero.php';
     </div>
   </div>
   <script>
-    // Mostrar automáticamente el modal cuando se ha generado un token
+    // Mostrar el modal automáticamente al cargar
     document.addEventListener('DOMContentLoaded', function () {
       var qrModal = new bootstrap.Modal(document.getElementById('qrModal'));
       qrModal.show();
     });
   </script>
 <?php endif; ?>
+
+<?php require_once __DIR__ . '/../partials/footer_mesero.php'; ?>

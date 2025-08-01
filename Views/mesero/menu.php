@@ -24,17 +24,17 @@ require_once __DIR__ . '/../partials/header_mesero.php';
   <?php endif; ?>
   <div class="menu-grid">
     <!-- Opción Mesas -->
-    <a href="Views/mesero/mesas.php" class="menu-btn">
+    <a href="/mesas.php" class="menu-btn">
       <i class="fas fa-table"></i>
       <span>Mesas</span>
     </a>
     <!-- Opción Mis Pedidos -->
-    <a href="Views/mesero/pedido.php" class="menu-btn">
+    <a href="./pedido.php" class="menu-btn">
       <i class="fas fa-receipt"></i>
       <span>Mis&nbsp;Pedidos</span>
     </a>
     <!-- Opción Cerrar Sesión -->
-    <a href="Controllers/logout.php" class="menu-btn">
+    <a href="./Controllers/logout.php" class="menu-btn">
       <i class="fas fa-sign-out-alt"></i>
       <span>Cerrar&nbsp;Sesión</span>
     </a>
