@@ -16,7 +16,13 @@ class ClienteController {
         }
         $mesaId   = $tokenData['mesa_id'];
         $qrTokenId = $tokenData['id'];
-        $meseroId = $tokenData['mesero_id'];  // mesero asignado (guardado al generar QR)
+        // Obtener id del mesero desde el formulario (parámetro oculto). La tabla qr_tokens
+        // no tiene una columna mesero_id. Si no se envía el parámetro o es 0, el QR es inválido.
+        $meseroId = isset($_POST['mesero']) ? intval($_POST['mesero']) : 0;
+        if ($meseroId <= 0) {
+            header("Location: ../Views/cliente/loginCliente.php?token=$token&error=mesero");
+            exit;
+        }
 
         // Registrar cliente en la BD
         $clienteId = Models\ClienteModel::crearCliente($nombre, $email);
@@ -26,13 +32,15 @@ class ClienteController {
         $sesionId = Models\SesionModel::crearSesion($qrTokenId, $clienteId);
         $_SESSION['sesion_mesa_id'] = $sesionId;
 
-        // Asignar mesero a la sesión (registrar en asignacion_mesero)
-        Models\Database::execute(
-            "INSERT INTO asignacion_mesero (sesion_id, empleado_id, asignado_desde) VALUES (?, ?, NOW())", 
-            [ $sesionId, $meseroId ]
-        );
+        // Asignar mesero a la sesión (registrar en asignacion_mesero) solo si hay un mesero válido
+        if ($meseroId > 0) {
+            Models\Database::execute(
+                "INSERT INTO asignacion_mesero (sesion_id, empleado_id, asignado_desde) VALUES (?, ?, NOW())",
+                [ $sesionId, $meseroId ]
+            );
+        }
 
-        // Crear un pedido asociado a esta sesión
+        // Crear un pedido asociado a esta sesión, utilizando el id del mesero si está disponible
         $pedidoId = Models\PedidoModel::crearPedido($sesionId, $meseroId);
         $_SESSION['pedido_id'] = $pedidoId;
 

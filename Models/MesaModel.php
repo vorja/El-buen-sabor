@@ -12,9 +12,15 @@ class MesaModel {
      */
     public static function generarTokenQR(int $mesaId, int $meseroId): string {
         $token = bin2hex(random_bytes(32));
-        $sql = "INSERT INTO qr_tokens (mesa_id, mesero_id, token, expira, creado) \
-              VALUES (?, ?, ?, DATE_ADD(NOW(), INTERVAL 4 HOUR), NOW())";
-        Database::execute($sql, [ $mesaId, $meseroId, $token ]);
+        // Construimos la sentencia SQL en varias líneas sin usar el caracter "\".
+        // PHP permite concatenar cadenas separadas por espacios en un único literal.
+        // Eliminar el backslash evita que se inserte un caracter "\" en la consulta,
+        // lo cual provocaba un error de sintaxis (\ VALUES ...). Utilice salto de línea
+        // natural para mejorar la legibilidad.
+        // La tabla `qr_tokens` no tiene columna `mesero_id`. Solo insertamos los campos definidos.
+        $sql = "INSERT INTO qr_tokens (mesa_id, token, expira, creado) "
+             . "VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 4 HOUR), NOW())";
+        Database::execute($sql, [ $mesaId, $token ]);
         return $token;
     }
 

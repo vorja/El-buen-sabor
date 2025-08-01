@@ -20,7 +20,8 @@ if ($empleado) {
     if ($empleado['rol_id'] == 2) {
         header("Location: ../Views/admin/dashboard.php");
     } else {
-        header("Location: ../Views/mesero/mesas.php");
+        // Redirigir al menú de mesero en lugar de ir directamente a las mesas.
+        header("Location: ../Views/mesero/menu.php");
     }
     exit;
 } else {

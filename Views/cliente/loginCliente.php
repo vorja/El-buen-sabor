@@ -7,7 +7,8 @@ if (isset($_SESSION['sesion_mesa_id'])) {
     exit;
 }
 
-$token = $_GET['token'] ?? '';  
+$token  = $_GET['token'] ?? '';
+$mesero = $_GET['mesero'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -26,6 +27,7 @@ $token = $_GET['token'] ?? '';
     <p>Por favor ingrese sus datos para iniciar el pedido en la mesa.</p>
     <form action="../../Controllers/ClienteController.php" method="POST">
       <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+      <input type="hidden" name="mesero" value="<?= htmlspecialchars($mesero) ?>">
       <div class="mb-3">
         <label for="nombre" class="form-label">Nombre:</label>
         <input type="text" name="nombre" id="nombre" class="form-control" required>
@@ -38,6 +40,8 @@ $token = $_GET['token'] ?? '';
     </form>
     <?php if (isset($_GET['error']) && $_GET['error']=='token'): ?>
       <div class="alert alert-danger mt-3">Código QR inválido o expirado.</div>
+    <?php elseif (isset($_GET['error']) && $_GET['error']=='mesero'): ?>
+      <div class="alert alert-danger mt-3">Error al identificar al mesero. Por favor utilice el código QR proporcionado por el mesero.</div>
     <?php endif; ?>
   </div>
   <?php endif; ?>

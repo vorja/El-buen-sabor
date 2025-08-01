@@ -22,8 +22,8 @@ $pedidos = \Models\Database::queryAll(
     [ $meseroId ]
 );
 
-$pageTitle = "Pedidos Pendientes";
-require_once __DIR__ . '/../partials/header.php';
+$pageTitle = "Mis Pedidos";
+require_once __DIR__ . '/../partials/header_mesero.php';
 ?>
 
 <div class="row">
@@ -36,26 +36,31 @@ require_once __DIR__ . '/../partials/header.php';
         <p class="card-text text-muted">Aún no hay nuevos pedidos o todos están en cocina.</p>
       </div>
     <?php else: ?>
-      <div class="list-group">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <?php foreach ($pedidos as $p): ?>
-          <a href="pedido.php?pedido=<?= $p['id'] ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <div>
-              <h6>Pedido #<?= $p['id'] ?> - Mesa <?= htmlspecialchars($p['mesa']) ?></h6>
-              <small class="text-muted"><?= $p['creado'] ?></small>
+          <div class="col">
+            <div class="card h-100 shadow-sm position-relative">
+              <div class="card-body">
+                <h5 class="card-title">Pedido #<?= $p['id'] ?></h5>
+                <p class="card-text mb-1">Mesa: <?= htmlspecialchars($p['mesa']) ?></p>
+                <p class="card-text mb-1"><small class="text-muted"><?= $p['creado'] ?></small></p>
+                <p class="card-text mb-1">
+                  Estado:
+                  <?php if ($p['estado']==='en_progreso'): ?>
+                    <span class="badge bg-primary-coffee">En Progreso</span>
+                  <?php else: ?>
+                    <span class="badge bg-secondary-coffee">En Cocina</span>
+                  <?php endif; ?>
+                </p>
+                <p class="card-text fw-bold">Total: $<?= number_format($p['total'], 2) ?></p>
+              </div>
+              <a href="pedido_detalle.php?pedido=<?= $p['id'] ?>" class="stretched-link"></a>
             </div>
-            <div class="text-end">
-              <?php if ($p['estado']==='en_progreso'): ?>
-                <span class="badge bg-primary-coffee">En Progreso</span>
-              <?php else: ?>
-                <span class="badge bg-secondary-coffee">En Cocina</span>
-              <?php endif; ?>
-              <p class="mb-0">$<?= number_format($p['total'],2) ?></p>
-            </div>
-          </a>
+          </div>
         <?php endforeach; ?>
       </div>
     <?php endif; ?>
   </div>
 </div>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../partials/footer_mesero.php'; ?>
