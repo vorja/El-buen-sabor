@@ -43,7 +43,11 @@ if (!function_exists('array_key_first')) {
 </head>
 <body class="bg-gray-100">
     <!-- Hero Section -->
-    <section class="hero relative h-[60vh] bg-cover bg-center flex items-center justify-center text-center text-white">
+    <section class="hero relative h-[60vh] bg-cover bg-center flex flex-col items-center justify-center text-center text-white">
+        <!-- Botón de inicio de sesión para empleados -->
+        <div class="absolute top-4 right-4 z-20">
+            <a href="Views/login.php" class="bg-yellow-600 text-white px-5 py-2 rounded-full hover:bg-yellow-700 transition duration-300">Iniciar Sesión</a>
+        </div>
         <div class="z-10">
             <h1 class="text-5xl font-bold mb-4 drop-shadow-lg">El Buen Sabor</h1>
             <p class="text-xl mb-8 drop-shadow">Descubre el arte del café artesanal</p>

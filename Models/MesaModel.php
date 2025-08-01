@@ -24,9 +24,11 @@ class MesaModel {
      */
     public static function generarTokenQR(int $mesaId, int $meseroId): string {
         $token = bin2hex(random_bytes(32));
-        // La tabla qr_tokens contiene: mesa_id, token, expira, creado
+        // Insertar el token en qr_tokens con expiración de 1 hora.  De esta
+        // manera la mesa quedará liberada automáticamente una hora
+        // después de su generación si el pedido no es pagado.
         $sql = "INSERT INTO qr_tokens (mesa_id, token, expira, creado) "
-             . "VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 4 HOUR), NOW())";
+             . "VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 1 HOUR), NOW())";
         Database::execute($sql, [ $mesaId, $token ]);
         return $token;
     }

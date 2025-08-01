@@ -112,7 +112,7 @@ require_once __DIR__ . '/../partials/admin_header.php';
             </div>
             <input type="hidden" name="cerrar_pedido_id" value="<?= $pedidoId ?>">
             <div class="col-12 d-flex justify-content-between">
-              <a href="views/admin/ventas.php" class="btn btn-outline-secondary">Cancelar</a>
+              <a href="views/ admin/ventas.php" class="btn btn-outline-secondary">Cancelar</a>
               <button type="submit" class="btn btn-success" onclick="return confirm('¿Confirmar registro de pago?');">
                 Registrar Pago
               </button>

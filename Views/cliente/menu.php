@@ -101,6 +101,9 @@ $detalles = isset($_SESSION['pedido_id'])
                   <?php if (!empty($prod['descripcion'])): ?>
                     <p><?php echo nl2br(htmlspecialchars($prod['descripcion'])); ?></p>
                   <?php endif; ?>
+                  <?php if (isset($prod['precio_unitario'])): ?>
+                    <p class="mt-2 fw-bold">Precio: $<?php echo number_format($prod['precio_unitario'], 2); ?></p>
+                  <?php endif; ?>
                 </div>
                 <div class="modal-footer">
                   <form action="../../Controllers/ClienteController.php" method="POST">
