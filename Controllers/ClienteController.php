@@ -58,6 +58,16 @@ class ClienteController {
             header("Location: ../Views/cliente/loginCliente.php?token=$token&error=mesero");
             exit;
         }
+        // Validar datos de entrada. Aunque el formulario en loginCliente.php tiene
+        // atributos `required` en los campos de nombre y email, es posible que
+        // un usuario eluda esa validación o que surja algún problema en el envío.
+        // Verificamos en el servidor que ambos valores no estén vacíos antes de
+        // continuar. Si falta alguno, redirigimos con el error `no_data` para
+        // que se muestre el mensaje correspondiente en la vista de ingreso.
+        if (trim($nombre) === '' || trim($email) === '') {
+            header("Location: ../Views/cliente/loginCliente.php?token=$token&error=no_data");
+            exit;
+        }
         // Registrar cliente
         $clienteId = ClienteModel::crearCliente($nombre, $email);
         $_SESSION['cliente_id'] = $clienteId;

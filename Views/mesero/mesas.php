@@ -65,14 +65,46 @@ require_once __DIR__ . '/../partials/header_mesero.php';
         <div class="modal-body text-center">
           <p>Solicite a su cliente que escanee este código QR para ingresar sus datos y comenzar el pedido.</p>
           <?php
-            // Construir la URL que el código QR debe contener. Incluir el id del mesero para
-            // asociar la mesa con el mesero cuando el cliente inicie sesión.
-            $meseroId = $_SESSION['empleado_id'] ?? '';
-            $qrLink = 'Views/cliente/loginCliente.php?token=' . urlencode($tokenGenerado) . '&mesero=' . urlencode($meseroId);
+            /*
+             * Construir la URL absoluta que debe contener el código QR.
+             * En el código original se utilizaba una ruta relativa (Views/cliente/loginCliente.php)
+             * y un servicio externo para generar la imagen del QR. Eso ocasionaba
+             * que, al escanear el QR desde un dispositivo móvil, el enlace no se
+             * resolviera correctamente porque faltaba el dominio. Aquí obtenemos
+             * el protocolo (http o https), el host (dominio/IP) y concatenamos
+             * con la ruta base del proyecto para formar una URL completa. De esta
+             * manera, cualquier dispositivo podrá abrir el enlace generado.
+             */
+            // ID del mesero que genera el QR. Se utiliza para asociar la sesión al mesero.
+            $meseroId = $_SESSION['empleado_id'] ?? 0;
+
+            // Determinar protocolo y dominio
+            $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+            $host     = $_SERVER['HTTP_HOST'];
+            // Calcular la ruta base de la aplicación de forma dinámica a partir del nombre del script.
+            // $_SERVER['SCRIPT_NAME'] devuelve la ruta del script actual (por ejemplo,
+            // '/El-buen-sabor/Views/mesero/mesas.php'). Utilizando dirname() varias
+            // veces podemos subir niveles para quedarnos con la carpeta raíz del proyecto
+            // (en este caso '/El-buen-sabor'). De esta forma evitamos problemas de
+            // mayúsculas/minúsculas o cambios en el nombre del directorio.
+            $scriptName = $_SERVER['SCRIPT_NAME'];
+            // Subimos tres niveles: mesas.php -> mesero -> Views -> El-buen-sabor
+            $base       = dirname(dirname(dirname($scriptName)));
+            // Asegurar que termine con una barra antes de concatenar rutas
+            $base       = rtrim($base, '/');
+            // Construir enlace absoluto para el QR
+            $qrLink   = $protocol . $host . $base . '/Views/cliente/loginCliente.php?token=' . urlencode($tokenGenerado) . '&mesero=' . urlencode($meseroId);
+
+            // Generar el código QR mediante un servicio externo. Se construye la URL
+            // de la API de qrserver pasando como datos la URL completa que debe
+            // contener el código. De esta forma no dependemos de la librería
+            // PHPQrcode y simplificamos la generación.
             $qrImg  = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' . urlencode($qrLink);
           ?>
-          <img src="<?= $qrImg ?>" alt="Código QR" class="img-fluid mb-3" />
-          <p class="small">Enlace: <a href="<?= $qrLink ?>" target="_blank"><?= htmlspecialchars($qrLink) ?></a></p>
+          <img src="<?php echo $qrImg; ?>" alt="Código QR" class="img-fluid mb-3" />
+          <!-- Mostrar el enlace completo para referencia. Esto facilita la verificación durante el desarrollo
+               pero también sirve de respaldo en caso de que el cliente no pueda escanear el QR. -->
+          <p class="small">Enlace: <a href="<?php echo htmlspecialchars($qrLink); ?>" target="_blank"><?php echo htmlspecialchars($qrLink); ?></a></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
